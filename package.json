@@ -26,6 +26,7 @@
    "package-url":"https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"}
 ],
 "git":[
-  {"host":"github.com","user":"tonoccho","repo":"dotfiles","postcmd":"mklink.sh","via":"ssh","link":""}
+  {"host":"github.com","user":"tonoccho","repo":"dotfiles","postcmd":"mklink.sh","via":"ssh","link":""},
+  {"host":"github.com","user":"tonoccho","repo":"setup","postcmd":"helloworld.sh","via":"ssh","link":""}
 ]
 }
