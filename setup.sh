@@ -9,6 +9,30 @@ else
   yes | apt install jq
 fi
 
+HOME_PACKAGE_NUM=`cat package.json | jq '.home | length'`
+HOME_MAX_PACKAGE_INDEX=`echo "${HOME_PACKAGE_NUM}-1" | bc`
+echo "Processing ${HOME_PACKAGE_NUM} home preparation ..."
+
+for i in `seq 0 ${HOME_MAX_PACKAGE_INDEX}`
+do
+  TYPE=`cat package.json | jq -r .home[${i}].type`
+  NAME=`cat package.json | jq -r .home[${i}].name`
+  TARGET_HOME=`cat /etc/passwd | grep ${SUDO_USER} | cut -f 6 -d ":"`
+
+  if [ ${TYPE} = "directory" ]
+  then
+    DIR_TO_MAKE=${TARGET_HOME}/${NAME}
+    if [ -d ${DIR_TO_MAKE} ]
+    then
+      echo "[SKIP] ${DIR_TO_MAKE}"
+    else
+      mkdir -p ${DIR_TO_MAKE}
+      chown ${SUDO_USER} ${DIR_TO_MAKE}
+      echo "[MADE] ${DIR_TO_MAKE}"
+    fi
+  fi
+done
+
 APT_PACKAGE_NUM=`cat package.json | jq '.apt | length'`
 APT_MAX_PACKAGE_INDEX=`echo "${APT_PACKAGE_NUM}-1" | bc`
 echo "Processing ${APT_PACKAGE_NUM} apt packages ..."
