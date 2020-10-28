@@ -1,0 +1,31 @@
+{
+"apt":[
+  {"package":"git"},
+  {"package":"mozc-utils-gui"},
+  {"package":"gimp"},
+  {"package":"inkscape"},
+  {"package":"snapd"},
+  {"package":"figlet"},
+  {"package":"toilet"},
+  {"package":"shotcut"},
+  {"package":"rawtherapee"},
+  {"package":"gthumb"},
+  {"package":"tmux"},
+  {"package":"cowsay"},
+  {"package":"fortune"},
+  {"package":"linuxlogo"}
+],
+"snap":[
+  {"package":"code", "option":"--classic"},
+  {"package":"krita", "option":""},
+  {"package":"chromium", "option":""},
+  {"package":"lolcat", "option":""}
+],
+"dpkg":[
+  {"package":"google-chrome",
+   "package-url":"https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"}
+],
+"git":[
+  {"host":"github.com","user":"tonoccho","repo":"dotfiles","postcmd":"mklink.sh","via":"ssh","link":""}
+]
+}
