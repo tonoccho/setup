@@ -91,10 +91,13 @@ do
 
   TARGET_HOME=`cat /etc/passwd | grep ${SUDO_USER} | cut -f 6 -d ":"`
   TARGET_DIR=${TARGET_HOME}/.gitrepos/${HOST}/${USER}/${REPO}
-  
-  su - ${SUDO_USER} -c "git clone ${REPO_URL} ${TARGET_DIR}"
 
-  chown -R ${SUDO_USER} ${TARGET_HOME}/.gitrepos
-
-  su - ${SUDO_USER} -c "${TARGET_DIR}/${POSTCMD}"
+  if [ -d ${TARGET_DIR} ]
+  then
+    echo "[SKIP] ${REPO}"
+  else
+    su - ${SUDO_USER} -c "git clone ${REPO_URL} ${TARGET_DIR}"
+    chown -R ${SUDO_USER} ${TARGET_HOME}/.gitrepos
+    su - ${SUDO_USER} -c "${TARGET_DIR}/${POSTCMD}"
+  fi
 done
