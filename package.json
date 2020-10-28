@@ -29,8 +29,6 @@
   {"package":"libreadline-dev"},
   {"package":"zlib1g-dev"},
   {"package":"go-mtpfs"},
-  {"package":"libmtp"},
-  {"package":"mtpfs"},
   {"package":"mtp-tools"},
   {"package":"kdenlive"},
   {"package":"keepass2"},
@@ -38,8 +36,6 @@
   {"package":"virtualbox-guest-additions-iso"},
   {"package":"virtualbox-dkms"},
   {"package":"openvpn"},
-  {"package":"python-requests"},
-  {"package":"python-urwid"},
   {"package":"wmctrl"}
 ],
 "snap":[
