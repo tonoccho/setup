@@ -24,7 +24,6 @@
   {"package":"openjdk-11-jdk"},
   {"package":"libheif-examples"},
   {"package":"nixnote2"},
-  {"package":"build-essentail"},
   {"package":"libssl-dev"},
   {"package":"libreadline-dev"},
   {"package":"zlib1g-dev"},
@@ -36,7 +35,8 @@
   {"package":"virtualbox-guest-additions-iso"},
   {"package":"virtualbox-dkms"},
   {"package":"openvpn"},
-  {"package":"wmctrl"}
+  {"package":"wmctrl"},
+  {"package":"vim"}
 ],
 "snap":[
   {"package":"code", "option":"--classic"},
