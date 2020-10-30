@@ -14,6 +14,14 @@ fail() {
   echo -e "[\e[31mFAIL\e[m] ${1}"
 }
 
+length() {
+  cat package.json | jq "${1} | length"
+}
+
+decrement() {
+  echo "${1}-1" | bc
+}
+
 checkRequirement() {
   if  which jq > /dev/null 2>&1
   then
@@ -25,8 +33,8 @@ checkRequirement() {
 }
 
 setupHome() {
-  local HOME_PACKAGE_NUM=`cat package.json | jq '.home | length'`
-  local HOME_MAX_PACKAGE_INDEX=`echo "${HOME_PACKAGE_NUM}-1" | bc`
+  local HOME_PACKAGE_NUM=`length ".home"`
+  local HOME_MAX_PACKAGE_INDEX=`decrement ${HOME_PACKAGE_NUM}`
   
   info "Processing ${HOME_PACKAGE_NUM} home preparation ..."
   
@@ -52,8 +60,8 @@ setupHome() {
 }
 
 setupApt() {
-  local APT_PACKAGE_NUM=`cat package.json | jq '.apt | length'`
-  local APT_MAX_PACKAGE_INDEX=`echo "${APT_PACKAGE_NUM}-1" | bc`
+  local APT_PACKAGE_NUM=`length ".apt"`
+  local APT_MAX_PACKAGE_INDEX=`decrement ${APT_PACKAGE_NUM}`
   info "Processing ${APT_PACKAGE_NUM} apt packages ..."
   
   for i in `seq 0 ${APT_MAX_PACKAGE_INDEX}`
@@ -79,8 +87,8 @@ setupApt() {
 }
 
 setupDpkg() {
-  local DPKG_PACKAGE_NUM=`cat package.json | jq '.dpkg | length'`
-  local DPKG_MAX_PACKAGE_INDEX=`echo "${DPKG_PACKAGE_NUM}-1" | bc`
+  local DPKG_PACKAGE_NUM=`length ".dpkg"`
+  local DPKG_MAX_PACKAGE_INDEX=`decrement ${DPKG_PACKAGE_NUM}`
   info "Processing ${DPKG_PACKAGE_NUM} dpkg packages ..."
   
   for i in `seq 0 ${DPKG_MAX_PACKAGE_INDEX}`
@@ -110,8 +118,8 @@ setupDpkg() {
 }
 
 setupSnap() {
-  local SNAP_PACKAGE_NUM=`cat package.json | jq '.snap | length'`
-  local SNAP_MAX_PACKAGE_INDEX=`echo "${SNAP_PACKAGE_NUM}-1" | bc`
+  local SNAP_PACKAGE_NUM=`length ".snap"`
+  local SNAP_MAX_PACKAGE_INDEX=`decrement ${SNAP_PACKAGE_NUM}`
   info "Processing ${SNAP_PACKAGE_NUM} snap packages ..."
   
   for i in `seq 0 ${SNAP_MAX_PACKAGE_INDEX}`
@@ -141,8 +149,8 @@ setupSnap() {
 }
 
 setupGit(){
-  local GIT_PACKAGE_NUM=`cat package.json | jq '.git | length'`
-  local GIT_MAX_PACKAGE_INDEX=`echo "${GIT_PACKAGE_NUM}-1" | bc`
+  local GIT_PACKAGE_NUM=`length ".git"`
+  local GIT_MAX_PACKAGE_INDEX=`decrement ${GIT_PACKAGE_NUM}`
   info "Processing ${GIT_PACKAGE_NUM} git packages ..."
   
   for i in `seq 0 ${GIT_MAX_PACKAGE_INDEX}`
