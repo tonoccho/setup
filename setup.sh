@@ -17,9 +17,9 @@ fail() {
 checkRequirement() {
   if  which jq > /dev/null 2>&1
   then
-    echo "jq is installed ..."
+    info "jq is installed ..."
   else
-    echo "Installing jq"
+    info "Installing jq"
     yes | apt install jq
   fi
 }
