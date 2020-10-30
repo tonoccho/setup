@@ -25,19 +25,20 @@ checkRequirement() {
 }
 
 setupHome() {
-  HOME_PACKAGE_NUM=`cat package.json | jq '.home | length'`
-  HOME_MAX_PACKAGE_INDEX=`echo "${HOME_PACKAGE_NUM}-1" | bc`
+  local HOME_PACKAGE_NUM=`cat package.json | jq '.home | length'`
+  local HOME_MAX_PACKAGE_INDEX=`echo "${HOME_PACKAGE_NUM}-1" | bc`
+  
   info "Processing ${HOME_PACKAGE_NUM} home preparation ..."
   
   for i in `seq 0 ${HOME_MAX_PACKAGE_INDEX}`
   do
-    TYPE=`cat package.json | jq -r .home[${i}].type`
-    NAME=`cat package.json | jq -r .home[${i}].name`
-    TARGET_HOME=`cat /etc/passwd | grep ${SUDO_USER} | cut -f 6 -d ":"`
+    local TYPE=`cat package.json | jq -r .home[${i}].type`
+    local NAME=`cat package.json | jq -r .home[${i}].name`
+    local TARGET_HOME=`cat /etc/passwd | grep ${SUDO_USER} | cut -f 6 -d ":"`
   
     if [ ${TYPE} = "directory" ]
     then
-      DIR_TO_MAKE=${TARGET_HOME}/${NAME}
+      local DIR_TO_MAKE=${TARGET_HOME}/${NAME}
       if [ -d ${DIR_TO_MAKE} ]
       then
         skip ${DIR_TO_MAKE}
@@ -51,21 +52,21 @@ setupHome() {
 }
 
 setupApt() {
-  APT_PACKAGE_NUM=`cat package.json | jq '.apt | length'`
-  APT_MAX_PACKAGE_INDEX=`echo "${APT_PACKAGE_NUM}-1" | bc`
+  local APT_PACKAGE_NUM=`cat package.json | jq '.apt | length'`
+  local APT_MAX_PACKAGE_INDEX=`echo "${APT_PACKAGE_NUM}-1" | bc`
   info "Processing ${APT_PACKAGE_NUM} apt packages ..."
   
   for i in `seq 0 ${APT_MAX_PACKAGE_INDEX}`
   do
-    PACKAGE=`cat package.json | jq -r .apt[${i}].package`
-    DPKG_RESULT=`dpkg -l ${PACKAGE} | tail -n 1 | cut -b 2`
+    local PACKAGE=`cat package.json | jq -r .apt[${i}].package`
+    local DPKG_RESULT=`dpkg -l ${PACKAGE} | tail -n 1 | cut -b 2`
     if [ "${DPKG_RESULT}" = "i" ]
     then
       skip ${PACKAGE}
     else
       yes | apt install ${PACKAGE} > /dev/null 2>&1
   
-      APT_RESULT=$?
+      local APT_RESULT=$?
   
       if [ ${APT_RESULT} -eq 0 ]
       then
@@ -78,17 +79,17 @@ setupApt() {
 }
 
 setupDpkg() {
-  DPKG_PACKAGE_NUM=`cat package.json | jq '.dpkg | length'`
-  DPKG_MAX_PACKAGE_INDEX=`echo "${DPKG_PACKAGE_NUM}-1" | bc`
+  local DPKG_PACKAGE_NUM=`cat package.json | jq '.dpkg | length'`
+  local DPKG_MAX_PACKAGE_INDEX=`echo "${DPKG_PACKAGE_NUM}-1" | bc`
   info "Processing ${DPKG_PACKAGE_NUM} dpkg packages ..."
   
   for i in `seq 0 ${DPKG_MAX_PACKAGE_INDEX}`
   do
-    PACKAGE=`cat package.json | jq -r .dpkg[${i}].package`
-    URL=`cat package.json | jq -r .dpkg[${i}].url`
-    FILE=`cat package.json | jq -r .dpkg[${i}].file`
+    local PACKAGE=`cat package.json | jq -r .dpkg[${i}].package`
+    local URL=`cat package.json | jq -r .dpkg[${i}].url`
+    local FILE=`cat package.json | jq -r .dpkg[${i}].file`
     
-    DPKG_RESULT=`dpkg -l ${PACKAGE} | tail -n 1 | cut -b 2`
+    local DPKG_RESULT=`dpkg -l ${PACKAGE} | tail -n 1 | cut -b 2`
     if [ "${DPKG_RESULT}" = "i" ]
     then
       skip ${PACKAGE}
@@ -96,7 +97,7 @@ setupDpkg() {
       wget -P /tmp ${URL} > /dev/null 2>&1
       yes | apt install /tmp/${FILE} > /dev/null 2>&1
   
-      APT_RESULT=$?
+      local APT_RESULT=$?
   
       if [ ${APT_RESULT} -eq 0 ]
       then
@@ -109,23 +110,23 @@ setupDpkg() {
 }
 
 setupSnap() {
-  SNAP_PACKAGE_NUM=`cat package.json | jq '.snap | length'`
-  SNAP_MAX_PACKAGE_INDEX=`echo "${SNAP_PACKAGE_NUM}-1" | bc`
+  local SNAP_PACKAGE_NUM=`cat package.json | jq '.snap | length'`
+  local SNAP_MAX_PACKAGE_INDEX=`echo "${SNAP_PACKAGE_NUM}-1" | bc`
   info "Processing ${SNAP_PACKAGE_NUM} snap packages ..."
   
   for i in `seq 0 ${SNAP_MAX_PACKAGE_INDEX}`
   do
-    PACKAGE=`cat package.json | jq -r .snap[${i}].package`
-    OPTION=`cat package.json | jq -r .snap[${i}].option`
+    local PACKAGE=`cat package.json | jq -r .snap[${i}].package`
+    local OPTION=`cat package.json | jq -r .snap[${i}].option`
   
-    SNAP_PKG_INSTALLED=`snap list | grep ${PACKAGE} | wc -l`
+    local SNAP_PKG_INSTALLED=`snap list | grep ${PACKAGE} | wc -l`
   
     if [ ${SNAP_PKG_INSTALLED} -eq 0 ]
     then
-      SNAP_CMD="snap install ${PACKAGE} ${OPTION}"
+      local SNAP_CMD="snap install ${PACKAGE} ${OPTION}"
       eval "${SNAP_CMD}" > /dev/null 2>&1
   
-      SNAP_RESULT=$?
+      local SNAP_RESULT=$?
   
       if [ ${SNAP_RESULT} -eq 0 ]
       then
@@ -140,34 +141,34 @@ setupSnap() {
 }
 
 setupGit(){
-  GIT_PACKAGE_NUM=`cat package.json | jq '.git | length'`
-  GIT_MAX_PACKAGE_INDEX=`echo "${GIT_PACKAGE_NUM}-1" | bc`
+  local GIT_PACKAGE_NUM=`cat package.json | jq '.git | length'`
+  local GIT_MAX_PACKAGE_INDEX=`echo "${GIT_PACKAGE_NUM}-1" | bc`
   info "Processing ${GIT_PACKAGE_NUM} git packages ..."
   
   for i in `seq 0 ${GIT_MAX_PACKAGE_INDEX}`
   do
-    HOST=`cat package.json | jq -r .git[${i}].host`
-    USER=`cat package.json | jq -r .git[${i}].user`
-    REPO=`cat package.json | jq -r .git[${i}].repo`
-    POSTCMD=`cat package.json | jq -r .git[${i}].postcmd`
-    VIA=`cat package.json | jq -r .git[${i}].via`
-    LINK=`cat package.json | jq -r .git[${i}].link`
+    local HOST=`cat package.json | jq -r .git[${i}].host`
+    local USER=`cat package.json | jq -r .git[${i}].user`
+    local REPO=`cat package.json | jq -r .git[${i}].repo`
+    local POSTCMD=`cat package.json | jq -r .git[${i}].postcmd`
+    local VIA=`cat package.json | jq -r .git[${i}].via`
+    local LINK=`cat package.json | jq -r .git[${i}].link`
   
     if [ ${HOST} = "github.com" ] || [ ${HOST} = "bitbucket.org" ]
     then
       if [ ${VIA} = "ssh" ]
       then
-        REPO_URL=git@${HOST}:${USER}/${REPO}.git
+        local REPO_URL=git@${HOST}:${USER}/${REPO}.git
   
       else
-        REPO_URL=https://${HOST}/${USER}/${REPO}.git
+        local REPO_URL=https://${HOST}/${USER}/${REPO}.git
       fi
     else
-      REPO_URL=${LINK}
+      local REPO_URL=${LINK}
     fi  
   
-    TARGET_HOME=`cat /etc/passwd | grep ${SUDO_USER} | cut -f 6 -d ":"`
-    TARGET_DIR=${TARGET_HOME}/.gitrepos/${HOST}/${USER}/${REPO}
+    local TARGET_HOME=`cat /etc/passwd | grep ${SUDO_USER} | cut -f 6 -d ":"`
+    local TARGET_DIR=${TARGET_HOME}/.gitrepos/${HOST}/${USER}/${REPO}
   
     if [ -d ${TARGET_DIR} ]
     then
@@ -180,6 +181,7 @@ setupGit(){
     fi
   done
 }
+
 info "apt update ..."
 apt update > /dev/null 2>&1
 checkRequirement
