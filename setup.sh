@@ -58,6 +58,34 @@ do
   fi
 done
 
+DPKG_PACKAGE_NUM=`cat package.json | jq '.dpkg | length'`
+DPKG_MAX_PACKAGE_INDEX=`echo "${DPKG_PACKAGE_NUM}-1" | bc`
+echo "Processing ${DPKG_PACKAGE_NUM} dpkg packages ..."
+
+for i in `seq 0 ${DPKG_MAX_PACKAGE_INDEX}`
+do
+  PACKAGE=`cat package.json | jq -r .dpkg[${i}].package`
+  URL=`cat package.json | jq -r .dpkg[${i}].url`
+  FILE=`cat package.json | jq -r .dpkg[${i}].file`
+  
+  DPKG_RESULT=`dpkg -l ${PACKAGE} | tail -n 1 | cut -b 2`
+  if [ "${DPKG_RESULT}" = "i" ]
+  then
+    echo "[SKIP] ${PACKAGE}"
+  else
+    wget -P /tmp ${URL} > /dev/null 2>&1
+    yes | apt install /tmp/${FILE} > /dev/null 2>&1
+
+    APT_RESULT=$?
+
+    if [ ${APT_RESULT} -eq 0 ]
+    then
+      echo "[INST] ${PACKAGE}"
+    else
+      echo "[FAIL] ${PACKAGE} apt rc : ${APT_RESULT}" 
+    fi
+  fi
+done
 SNAP_PACKAGE_NUM=`cat package.json | jq '.snap | length'`
 SNAP_MAX_PACKAGE_INDEX=`echo "${SNAP_PACKAGE_NUM}-1" | bc`
 echo "Processing ${SNAP_PACKAGE_NUM} snap packages ..."

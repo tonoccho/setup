@@ -56,12 +56,13 @@
   {"package":"krita", "option":""},
   {"package":"inkscape", "option":""},
   {"package":"shotcut", "option":"--classic"},
-  {"package":"task", "option":""},
+  {"package":"tusk", "option":""},
   {"package":"lolcat", "option":""}
 ],
 "dpkg":[
-  {"package":"google-chrome",
-   "package-url":"https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"}
+  {"package":"google-chrome-stable",
+   "url":"https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb",
+   "file":"google-chrome-stable_current_amd64.deb"}
 ],
 "git":[
   {"host":"github.com","user":"tonoccho","repo":"dotfiles","postcmd":"mklink.sh","via":"ssh","link":""},
