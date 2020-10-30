@@ -1,6 +1,4 @@
 #!/bin/bash
-apt update
-
 info() {
   echo -e "[\e[37mINFO\e[m] ${1}"
 }
@@ -182,7 +180,8 @@ setupGit(){
     fi
   done
 }
-
+info "apt update ..."
+apt update > /dev/null 2>&1
 checkRequirement
 setupHome
 setupApt
