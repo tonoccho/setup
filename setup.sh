@@ -1,16 +1,19 @@
 #!/bin/bash
 apt update
 
+info() {
+  echo -e "[\e[37mINFO\e[m] ${1}"
+}
 skip() {
-  echo "[SKIP] ${1}"
+  echo -e "[\e[33mSKIP\e[m] ${1}"
 }
 
 inst() {
-  echo "[INST] ${1}"
+  echo -e "[\e[32mINST\e[m] ${1}"
 }
 
 fail() {
-  echo "[FAIL] ${1}"
+  echo -e "[\e[31mFAIL\e[m] ${1}"
 }
 
 checkRequirement() {
@@ -26,7 +29,7 @@ checkRequirement() {
 setupHome() {
   HOME_PACKAGE_NUM=`cat package.json | jq '.home | length'`
   HOME_MAX_PACKAGE_INDEX=`echo "${HOME_PACKAGE_NUM}-1" | bc`
-  echo "Processing ${HOME_PACKAGE_NUM} home preparation ..."
+  info "Processing ${HOME_PACKAGE_NUM} home preparation ..."
   
   for i in `seq 0 ${HOME_MAX_PACKAGE_INDEX}`
   do
@@ -39,11 +42,11 @@ setupHome() {
       DIR_TO_MAKE=${TARGET_HOME}/${NAME}
       if [ -d ${DIR_TO_MAKE} ]
       then
-        echo "[SKIP] ${DIR_TO_MAKE}"
+        skip ${DIR_TO_MAKE}
       else
         mkdir -p ${DIR_TO_MAKE}
         chown ${SUDO_USER} ${DIR_TO_MAKE}
-        echo "[MADE] ${DIR_TO_MAKE}"
+        inst ${DIR_TO_MAKE}
       fi
     fi
   done
@@ -52,7 +55,7 @@ setupHome() {
 setupApt() {
   APT_PACKAGE_NUM=`cat package.json | jq '.apt | length'`
   APT_MAX_PACKAGE_INDEX=`echo "${APT_PACKAGE_NUM}-1" | bc`
-  echo "Processing ${APT_PACKAGE_NUM} apt packages ..."
+  info "Processing ${APT_PACKAGE_NUM} apt packages ..."
   
   for i in `seq 0 ${APT_MAX_PACKAGE_INDEX}`
   do
@@ -60,7 +63,7 @@ setupApt() {
     DPKG_RESULT=`dpkg -l ${PACKAGE} | tail -n 1 | cut -b 2`
     if [ "${DPKG_RESULT}" = "i" ]
     then
-      echo "[SKIP] ${PACKAGE}"
+      skip ${PACKAGE}
     else
       yes | apt install ${PACKAGE} > /dev/null 2>&1
   
@@ -68,9 +71,9 @@ setupApt() {
   
       if [ ${APT_RESULT} -eq 0 ]
       then
-        echo "[INST] ${PACKAGE}"
+        inst ${PACKAGE}
       else
-        echo "[FAIL] ${PACKAGE} apt rc : ${APT_RESULT}" 
+        fail "${PACKAGE} apt rc : ${APT_RESULT}" 
       fi
     fi
   done
@@ -79,7 +82,7 @@ setupApt() {
 setupDpkg() {
   DPKG_PACKAGE_NUM=`cat package.json | jq '.dpkg | length'`
   DPKG_MAX_PACKAGE_INDEX=`echo "${DPKG_PACKAGE_NUM}-1" | bc`
-  echo "Processing ${DPKG_PACKAGE_NUM} dpkg packages ..."
+  info "Processing ${DPKG_PACKAGE_NUM} dpkg packages ..."
   
   for i in `seq 0 ${DPKG_MAX_PACKAGE_INDEX}`
   do
@@ -90,7 +93,7 @@ setupDpkg() {
     DPKG_RESULT=`dpkg -l ${PACKAGE} | tail -n 1 | cut -b 2`
     if [ "${DPKG_RESULT}" = "i" ]
     then
-      echo "[SKIP] ${PACKAGE}"
+      skip ${PACKAGE}
     else
       wget -P /tmp ${URL} > /dev/null 2>&1
       yes | apt install /tmp/${FILE} > /dev/null 2>&1
@@ -99,9 +102,9 @@ setupDpkg() {
   
       if [ ${APT_RESULT} -eq 0 ]
       then
-        echo "[INST] ${PACKAGE}"
+        inst ${PACKAGE}
       else
-        echo "[FAIL] ${PACKAGE} apt rc : ${APT_RESULT}" 
+        fail "${PACKAGE} apt rc : ${APT_RESULT}" 
       fi
     fi
   done
@@ -110,7 +113,7 @@ setupDpkg() {
 setupSnap() {
   SNAP_PACKAGE_NUM=`cat package.json | jq '.snap | length'`
   SNAP_MAX_PACKAGE_INDEX=`echo "${SNAP_PACKAGE_NUM}-1" | bc`
-  echo "Processing ${SNAP_PACKAGE_NUM} snap packages ..."
+  info "Processing ${SNAP_PACKAGE_NUM} snap packages ..."
   
   for i in `seq 0 ${SNAP_MAX_PACKAGE_INDEX}`
   do
@@ -128,12 +131,12 @@ setupSnap() {
   
       if [ ${SNAP_RESULT} -eq 0 ]
       then
-        echo "[INST] ${PACKAGE}"
+        inst ${PACKAGE}
       else
-        echo "[FAIL] ${PACKAGE} snap rc : ${SNAP_RESULT}"
+        fail "${PACKAGE} snap rc : ${SNAP_RESULT}"
       fi
     else
-      echo "[SKIP] ${PACKAGE}"
+      skip ${PACKAGE}
     fi
   done
 }
@@ -141,7 +144,7 @@ setupSnap() {
 setupGit(){
   GIT_PACKAGE_NUM=`cat package.json | jq '.git | length'`
   GIT_MAX_PACKAGE_INDEX=`echo "${GIT_PACKAGE_NUM}-1" | bc`
-  echo "Processing ${GIT_PACKAGE_NUM} git packages ..."
+  info "Processing ${GIT_PACKAGE_NUM} git packages ..."
   
   for i in `seq 0 ${GIT_MAX_PACKAGE_INDEX}`
   do
@@ -170,11 +173,12 @@ setupGit(){
   
     if [ -d ${TARGET_DIR} ]
     then
-      echo "[SKIP] ${REPO}"
+      skip ${REPO}
     else
       su - ${SUDO_USER} -c "git clone ${REPO_URL} ${TARGET_DIR}"
       chown -R ${SUDO_USER} ${TARGET_HOME}/.gitrepos
       su - ${SUDO_USER} -c "${TARGET_DIR}/${POSTCMD}"
+      inst ${REPO_URL}
     fi
   done
 }
