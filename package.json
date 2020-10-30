@@ -7,7 +7,8 @@
   {"type":"directory", "name":".local"},
   {"type":"directory", "name":".local/share"},
   {"type":"directory", "name":".local/share/dein"},
-  {"type":"directory", "name":".gitrepos"}
+  {"type":"directory", "name":".gitrepos"},
+  {"type":"directory", "name":".lib"}
 ],
 "apt":[
   {"package":"git"},
@@ -46,7 +47,9 @@
   {"package":"virtualbox-dkms"},
   {"package":"openvpn"},
   {"package":"wmctrl"},
-  {"package":"vim"}
+  {"package":"vim"},
+  {"package":"tig"},
+  {"package":"git-flow"}
 ],
 "snap":[
   {"package":"code", "option":"--classic"},
