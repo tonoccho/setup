@@ -23,7 +23,6 @@
   {"package":"gthumb"},
   {"package":"tmux"},
   {"package":"cowsay"},
-  {"package":"fortune"},
   {"package":"linuxlogo"},
   {"package":"boxes"},
   {"package":"ibus-mozc"},
