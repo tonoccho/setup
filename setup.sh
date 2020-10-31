@@ -190,6 +190,12 @@ setupGit(){
   done
 }
 
+if [ -z ${SUDO_USER} ]
+then
+  fail "please run this commans with sudo"
+  exit 1
+fi
+
 info "apt update ..."
 apt update > /dev/null 2>&1
 checkRequirement
