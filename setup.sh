@@ -33,159 +33,159 @@ checkRequirement() {
 }
 
 setupHome() {
-  local HOME_PACKAGE_NUM=`length ".home"`
-  local HOME_MAX_PACKAGE_INDEX=`decrement ${HOME_PACKAGE_NUM}`
+  local num=`length ".home"`
+  local maxIndex=`decrement ${num}`
   
-  info "Processing ${HOME_PACKAGE_NUM} home preparation ..."
+  info "Processing ${num} home preparation ..."
   
-  for i in `seq 0 ${HOME_MAX_PACKAGE_INDEX}`
+  for i in `seq 0 ${maxIndex}`
   do
-    local TYPE=`cat package.json | jq -r .home[${i}].type`
-    local NAME=`cat package.json | jq -r .home[${i}].name`
-    local TARGET_HOME=`cat /etc/passwd | grep ${SUDO_USER} | cut -f 6 -d ":"`
+    local type=`cat package.json | jq -r .home[${i}].type`
+    local name=`cat package.json | jq -r .home[${i}].name`
+    local targetHome=`cat /etc/passwd | grep ${SUDO_USER} | cut -f 6 -d ":"`
   
-    if [ ${TYPE} = "directory" ]
+    if [ ${type} = "directory" ]
     then
-      local DIR_TO_MAKE=${TARGET_HOME}/${NAME}
-      if [ -d ${DIR_TO_MAKE} ]
+      local dirToMake=${targetHome}/${name}
+      if [ -d ${dirToMake} ]
       then
-        skip ${DIR_TO_MAKE}
+        skip ${dirToMake}
       else
-        mkdir -p ${DIR_TO_MAKE}
-        chown ${SUDO_USER} ${DIR_TO_MAKE}
-        inst ${DIR_TO_MAKE}
+        mkdir -p ${dirToMake}
+        chown ${SUDO_USER} ${dirToMake}
+        inst ${dirToMake}
       fi
     fi
   done
 }
 
 setupApt() {
-  local APT_PACKAGE_NUM=`length ".apt"`
-  local APT_MAX_PACKAGE_INDEX=`decrement ${APT_PACKAGE_NUM}`
-  info "Processing ${APT_PACKAGE_NUM} apt packages ..."
+  local num=`length ".apt"`
+  local nummaxIndex=`decrement ${num}`
+  info "Processing ${num} apt packages ..."
   
-  for i in `seq 0 ${APT_MAX_PACKAGE_INDEX}`
+  for i in `seq 0 ${nummaxIndex}`
   do
-    local PACKAGE=`cat package.json | jq -r .apt[${i}].package`
-    local DPKG_RESULT=`dpkg -l ${PACKAGE} | tail -n 1 | cut -b 2`
-    if [ "${DPKG_RESULT}" = "i" ]
+    local package=`cat package.json | jq -r .apt[${i}].package`
+    local result=`dpkg -l ${package} | tail -n 1 | cut -b 2`
+    if [ "${result}" = "i" ]
     then
-      skip ${PACKAGE}
+      skip ${package}
     else
-      yes | apt install ${PACKAGE} > /dev/null 2>&1
+      yes | apt install ${package} > /dev/null 2>&1
   
-      local APT_RESULT=$?
+      local result=$?
   
-      if [ ${APT_RESULT} -eq 0 ]
+      if [ ${result} -eq 0 ]
       then
-        inst ${PACKAGE}
+        inst ${package}
       else
-        fail "${PACKAGE} apt rc : ${APT_RESULT}" 
+        fail "${package} apt rc : ${result}" 
       fi
     fi
   done
 }
 
 setupDpkg() {
-  local DPKG_PACKAGE_NUM=`length ".dpkg"`
-  local DPKG_MAX_PACKAGE_INDEX=`decrement ${DPKG_PACKAGE_NUM}`
-  info "Processing ${DPKG_PACKAGE_NUM} dpkg packages ..."
+  local num=`length ".dpkg"`
+  local maxIndex=`decrement ${num}`
+  info "Processing ${num} dpkg packages ..."
   
-  for i in `seq 0 ${DPKG_MAX_PACKAGE_INDEX}`
+  for i in `seq 0 ${maxIndex}`
   do
-    local PACKAGE=`cat package.json | jq -r .dpkg[${i}].package`
-    local URL=`cat package.json | jq -r .dpkg[${i}].url`
-    local FILE=`cat package.json | jq -r .dpkg[${i}].file`
+    local package=`cat package.json | jq -r .dpkg[${i}].package`
+    local url=`cat package.json | jq -r .dpkg[${i}].url`
+    local file=`cat package.json | jq -r .dpkg[${i}].file`
     
-    local DPKG_RESULT=`dpkg -l ${PACKAGE} | tail -n 1 | cut -b 2`
-    if [ "${DPKG_RESULT}" = "i" ]
+    local result=`dpkg -l ${package} | tail -n 1 | cut -b 2`
+    if [ "${result}" = "i" ]
     then
-      skip ${PACKAGE}
+      skip ${package}
     else
-      wget -P /tmp ${URL} > /dev/null 2>&1
-      yes | apt install /tmp/${FILE} > /dev/null 2>&1
+      wget -P /tmp ${url} > /dev/null 2>&1
+      yes | apt install /tmp/${file} > /dev/null 2>&1
   
-      local APT_RESULT=$?
+      local result=$?
   
-      if [ ${APT_RESULT} -eq 0 ]
+      if [ ${result} -eq 0 ]
       then
-        inst ${PACKAGE}
+        inst ${package}
       else
-        fail "${PACKAGE} apt rc : ${APT_RESULT}" 
+        fail "${package} apt rc : ${result}" 
       fi
     fi
   done
 }
 
 setupSnap() {
-  local SNAP_PACKAGE_NUM=`length ".snap"`
-  local SNAP_MAX_PACKAGE_INDEX=`decrement ${SNAP_PACKAGE_NUM}`
-  info "Processing ${SNAP_PACKAGE_NUM} snap packages ..."
+  local num=`length ".snap"`
+  local maxIndex=`decrement ${num}`
+  info "Processing ${num} snap packages ..."
   
-  for i in `seq 0 ${SNAP_MAX_PACKAGE_INDEX}`
+  for i in `seq 0 ${maxIndex}`
   do
-    local PACKAGE=`cat package.json | jq -r .snap[${i}].package`
-    local OPTION=`cat package.json | jq -r .snap[${i}].option`
+    local package=`cat package.json | jq -r .snap[${i}].package`
+    local option=`cat package.json | jq -r .snap[${i}].option`
   
-    local SNAP_PKG_INSTALLED=`snap list | grep ${PACKAGE} | wc -l`
+    local installed=`snap list | grep ${package} | wc -l`
   
-    if [ ${SNAP_PKG_INSTALLED} -eq 0 ]
+    if [ ${installed} -eq 0 ]
     then
-      local SNAP_CMD="snap install ${PACKAGE} ${OPTION}"
-      eval "${SNAP_CMD}" > /dev/null 2>&1
+      local snapCmd="snap install ${package} ${option}"
+      eval "${snapCmd}" > /dev/null 2>&1
   
-      local SNAP_RESULT=$?
+      local result=$?
   
-      if [ ${SNAP_RESULT} -eq 0 ]
+      if [ ${result} -eq 0 ]
       then
-        inst ${PACKAGE}
+        inst ${package}
       else
-        fail "${PACKAGE} snap rc : ${SNAP_RESULT}"
+        fail "${package} snap rc : ${result}"
       fi
     else
-      skip ${PACKAGE}
+      skip ${package}
     fi
   done
 }
 
 setupGit(){
-  local GIT_PACKAGE_NUM=`length ".git"`
-  local GIT_MAX_PACKAGE_INDEX=`decrement ${GIT_PACKAGE_NUM}`
-  info "Processing ${GIT_PACKAGE_NUM} git packages ..."
+  local num=`length ".git"`
+  local maxIndex=`decrement ${num}`
+  info "Processing ${num} git packages ..."
   
-  for i in `seq 0 ${GIT_MAX_PACKAGE_INDEX}`
+  for i in `seq 0 ${maxIndex}`
   do
-    local HOST=`cat package.json | jq -r .git[${i}].host`
-    local USER=`cat package.json | jq -r .git[${i}].user`
-    local REPO=`cat package.json | jq -r .git[${i}].repo`
-    local POSTCMD=`cat package.json | jq -r .git[${i}].postcmd`
-    local VIA=`cat package.json | jq -r .git[${i}].via`
-    local LINK=`cat package.json | jq -r .git[${i}].link`
+    local host=`cat package.json | jq -r .git[${i}].host`
+    local user=`cat package.json | jq -r .git[${i}].user`
+    local repo=`cat package.json | jq -r .git[${i}].repo`
+    local postCommand=`cat package.json | jq -r .git[${i}].postcmd`
+    local protocol=`cat package.json | jq -r .git[${i}].via`
+    local url=`cat package.json | jq -r .git[${i}].link`
   
-    if [ ${HOST} = "github.com" ] || [ ${HOST} = "bitbucket.org" ]
+    if [ ${host} = "github.com" ] || [ ${host} = "bitbucket.org" ]
     then
-      if [ ${VIA} = "ssh" ]
+      if [ ${protocol} = "ssh" ]
       then
-        local REPO_URL=git@${HOST}:${USER}/${REPO}.git
+        local repo_url=git@${host}:${user}/${repo}.git
   
       else
-        local REPO_URL=https://${HOST}/${USER}/${REPO}.git
+        local repo_url=https://${host}/${user}/${repo}.git
       fi
     else
-      local REPO_URL=${LINK}
+      local repo_url=${url}
     fi  
   
-    local TARGET_HOME=`cat /etc/passwd | grep ${SUDO_USER} | cut -f 6 -d ":"`
-    local TARGET_DIR=${TARGET_HOME}/.gitrepos/${HOST}/${USER}/${REPO}
+    local targetHome=`cat /etc/passwd | grep ${SUDO_USER} | cut -f 6 -d ":"`
+    local targetDir=${targetHome}/.gitrepos/${host}/${user}/${repo}
   
-    if [ -d ${TARGET_DIR} ]
+    if [ -d ${targetDir} ]
     then
-      skip ${REPO}
+      skip ${repo}
     else
-      su - ${SUDO_USER} -c "git clone ${REPO_URL} ${TARGET_DIR}"
-      chown -R ${SUDO_USER} ${TARGET_HOME}/.gitrepos
-      su - ${SUDO_USER} -c "${TARGET_DIR}/${POSTCMD}"
-      inst ${REPO_URL}
+      su - ${SUDO_USER} -c "git clone ${repo_url} ${targetDir}"
+      chown -R ${SUDO_USER} ${targetHome}/.gitrepos
+      su - ${SUDO_USER} -c "${targetDir}/${postCommand}"
+      inst ${repo_url}
     fi
   done
 }
