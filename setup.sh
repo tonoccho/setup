@@ -184,7 +184,11 @@ setupGit(){
     else
       su - ${SUDO_USER} -c "git clone ${repo_url} ${targetDir}"
       chown -R ${SUDO_USER} ${targetHome}/.gitrepos
-      su - ${SUDO_USER} -c "${targetDir}/${postCommand}"
+
+      if [ ${postCommand} ]
+      then
+        su - ${SUDO_USER} -c "${targetDir}/${postCommand}"
+      fi
       inst ${repo_url}
     fi
   done

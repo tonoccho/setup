@@ -48,7 +48,9 @@
   {"package":"wmctrl"},
   {"package":"vim"},
   {"package":"tig"},
-  {"package":"git-flow"}
+  {"package":"git-flow"},
+  {"package":"digikam"},
+  {"package":"shotwell"}
 ],
 "snap":[
   {"package":"code", "option":"--classic"},
@@ -65,6 +67,7 @@
 ],
 "git":[
   {"host":"github.com","user":"tonoccho","repo":"dotfiles","postcmd":"mklink.sh","via":"ssh","link":""},
-  {"host":"github.com","user":"tonoccho","repo":"setup","postcmd":"helloworld.sh","via":"ssh","link":""}
+  {"host":"github.com","user":"tonoccho","repo":"setup","via":"ssh"},
+  {"host":"github.com","user":"tonoccho","repo":"tdd4bash","via":"ssh"}
 ]
 }
