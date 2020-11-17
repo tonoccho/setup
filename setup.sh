@@ -194,6 +194,19 @@ setupGit(){
   done
 }
 
+setupSystem(){
+  local shell=`cat package.json | jq -r .system[0].shell`
+  local shell_path=`which ${shell}`
+  local user_shell=`cat /etc/passwd | grep ${SUDO_USER} | cut -d ':' -f 7`
+
+  if [ ${shell_path} != ${user_shell} ]
+  then
+    info "change shell of ${SUDO_USER} from ${user_shell} to ${shell_path}"
+    chsh ${SUDO_USER} -s ${shell_path}
+    info "please relogin"
+  fi
+}
+
 if [ -z ${SUDO_USER} ]
 then
   fail "please run this commans with sudo"
@@ -208,3 +221,4 @@ setupApt
 setupDpkg
 setupSnap
 setupGit
+setupSystem

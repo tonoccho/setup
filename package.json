@@ -50,7 +50,10 @@
   {"package":"tig"},
   {"package":"git-flow"},
   {"package":"digikam"},
-  {"package":"shotwell"}
+  {"package":"shotwell"},
+  {"package":"darktable"},
+  {"package":"fish"},
+  {"package":"zsh"}
 ],
 "snap":[
   {"package":"code", "option":"--classic"},
@@ -69,5 +72,8 @@
   {"host":"github.com","user":"tonoccho","repo":"dotfiles","postcmd":"mklink.sh","via":"ssh","link":""},
   {"host":"github.com","user":"tonoccho","repo":"setup","via":"ssh"},
   {"host":"github.com","user":"tonoccho","repo":"tdd4bash","via":"ssh"}
+],
+"system":[
+  {"shell":"zsh"}
 ]
 }
