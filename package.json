@@ -75,6 +75,9 @@
   {"host":"github.com","user":"tonoccho","repo":"setup","via":"ssh"},
   {"host":"github.com","user":"tonoccho","repo":"tdd4bash","via":"ssh"}
 ],
+"dconf":[
+  {"entry":"/org/gnome/terminal/legacy/profiles:/", "file":"terminal.dconf"}
+],
 "system":[
   {"shell":"zsh"}
 ]
