@@ -54,7 +54,8 @@
   {"package":"darktable"},
   {"package":"fish"},
   {"package":"zsh"},
-  {"package":"fonts-powerline"}
+  {"package":"fonts-powerline"},
+  {"package":"terminator"}
 ],
 "snap":[
   {"package":"code", "option":"--classic"},
