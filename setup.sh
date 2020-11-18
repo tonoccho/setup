@@ -204,7 +204,17 @@ setupSystem(){
     info "change shell of ${SUDO_USER} from ${user_shell} to ${shell_path}"
     chsh ${SUDO_USER} -s ${shell_path}
     info "please relogin"
+  else
+    info "shell is already ${shell_path}"
   fi
+
+}
+
+runSpecials() {
+  for i in `ls specials`
+  do
+    su - ${SUDO_USER} -c "`pwd`/specials/${i}"
+  done
 }
 
 if [ -z ${SUDO_USER} ]
@@ -222,3 +232,4 @@ setupDpkg
 setupSnap
 setupGit
 setupSystem
+runSpecials

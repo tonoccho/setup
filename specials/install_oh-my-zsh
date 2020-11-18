@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+if [ -d ${HOME}/.oh-my-zsh ]
+then
+  info "oh-my-zsh is already installed"
+else
+  git clone https://github.com/ohmyzsh/ohmyzsh.git ${HOME}/.oh-my-zsh
+  info "oh-my-zsh is installed"
+fi
+
+
