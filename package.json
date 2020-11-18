@@ -53,7 +53,8 @@
   {"package":"shotwell"},
   {"package":"darktable"},
   {"package":"fish"},
-  {"package":"zsh"}
+  {"package":"zsh"},
+  {"package":"fonts-powerline"}
 ],
 "snap":[
   {"package":"code", "option":"--classic"},
