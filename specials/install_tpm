@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+if [ -d ${HOME}/.tmux/plugins/tpm ]
+then
+  info "tmux plugin manager is already installed"
+else
+  git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
+  info "tmux-plugin-managerh is installed"
+fi
+
+
