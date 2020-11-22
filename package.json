@@ -3,10 +3,8 @@
   {"type":"directory", "name":".vim"},
   {"type":"directory", "name":".vim/bundles"},
   {"type":"directory", "name":".cache"},
-  {"type":"directory", "name":".cache/dein"},
   {"type":"directory", "name":".local"},
   {"type":"directory", "name":".local/share"},
-  {"type":"directory", "name":".local/share/dein"},
   {"type":"directory", "name":".gitrepos"},
   {"type":"directory", "name":".lib"}
 ],

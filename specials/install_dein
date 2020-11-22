@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+if [ -d ${HOME}/.cache/dein ]
+then
+  echo "dein is already installed"
+else
+  curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh
+  sh ./installer.sh ${HOME}/.cache/dein
+  echo "dein is installed"
+fi
+
+
