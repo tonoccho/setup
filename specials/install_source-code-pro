@@ -2,10 +2,10 @@
 
 if [ -d ${HOME}/.fonts/adobe-fonts/source-code-pro ]
 then
-  info "adobe-source-code-pro has already been installed"
+  echo "[SKIP] adobe-source-code-pro has already been installed"
 else
   mkdir -p ${HOME}/.fonts/adobe-fonts/source-code-pro
   git clone https://github.com/adobe-fonts/source-code-pro.git ${HOME}/.fonts/adobe-fonts/source-code-pro
   fc-cache -f -v ${HOME}/.fonts/adobe-fonts/source-code-pro
-  echo "finished installing"
+  echo "[INST] finished installing"
 fi

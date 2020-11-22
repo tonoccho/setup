@@ -53,7 +53,8 @@
   {"package":"fish"},
   {"package":"zsh"},
   {"package":"fonts-powerline"},
-  {"package":"terminator"}
+  {"package":"terminator"},
+  {"package":"powerline"}
 ],
 "snap":[
   {"package":"code", "option":"--classic"},
