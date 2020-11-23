@@ -54,7 +54,24 @@
   {"package":"zsh"},
   {"package":"fonts-powerline"},
   {"package":"terminator"},
-  {"package":"powerline"}
+  {"package":"powerline"},
+  {"package":"make"},
+  {"package":"build-essential"},
+  {"package":"libssl-dev"},
+  {"package":"zlib1g-dev"},
+  {"package":"libbz2-dev"},
+  {"package":"libreadline-dev"},
+  {"package":"libsqlite3-dev"},
+  {"package":"wget"},
+  {"package":"curl"},
+  {"package":"llvm"},
+  {"package":"libncurses5-dev"},
+  {"package":"xz-utils"},
+  {"package":"tk-dev"},
+  {"package":"libxml2-dev"},
+  {"package":"libxmlsec1-dev"},
+  {"package":"libffi-dev"},
+  {"package":"liblzma-dev"}
 ],
 "snap":[
   {"package":"code", "option":"--classic"},
@@ -72,7 +89,8 @@
 "git":[
   {"host":"github.com","user":"tonoccho","repo":"dotfiles","postcmd":"mklink.sh","via":"ssh","link":""},
   {"host":"github.com","user":"tonoccho","repo":"setup","via":"ssh"},
-  {"host":"github.com","user":"tonoccho","repo":"tdd4bash","via":"ssh"}
+  {"host":"github.com","user":"tonoccho","repo":"tdd4bash","via":"ssh"},
+  {"host":"github.com","user":"pyenv","repo":"pyenv","via":"https"}
 ],
 "dconf":[
   {"entry":"/org/gnome/terminal/legacy/profiles:/", "file":"terminal.dconf"}
