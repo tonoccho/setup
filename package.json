@@ -88,17 +88,9 @@
 ],
 "git":[
   {"host":"github.com","user":"tonoccho"  ,"repo":"dotfiles","postcmd":"mklink.sh","via":"ssh","link":""},
-  {"host":"github.com","user":"tonoccho"  ,"repo":"setup"                         ,"via":"ssh"},
-  {"host":"github.com","user":"tonoccho"  ,"repo":"tdd4bash"                      ,"via":"ssh"},
-  {"host":"github.com","user":"pyenv"     ,"repo":"pyenv"                         ,"via":"https"},
-  {"host":"github.com","user":"as417-lama","repo":"terminal-glyph-patcher"        ,"via":"https"},
-  {"host":"github.com","user":"ryanoasis" ,"repo":"nerd-fonts"                    ,"via":"https"},
-  {"host":"github.com","user":"tsunesan3" ,"repo":"awsome-jp-coding-fonts"        ,"via":"https"},
-  {"host":"github.com","user":"yuru7"     ,"repo":"HackGen"                       ,"via":"https"},
-  {"host":"github.com","user":"jenv"      ,"repo":"jenv"                       ,"via":"https"}
-],
-"dconf":[
-  {"entry":"/org/gnome/terminal/legacy/profiles:/", "file":"terminal.dconf"}
+  {"host":"github.com","user":"yuru7"     ,"repo":"HackGen" ,"via":"https"},
+  {"host":"github.com","user":"pyenv"     ,"repo":"pyenv"   ,"via":"https"},
+  {"host":"github.com","user":"jenv"      ,"repo":"jenv"    ,"via":"https"}
 ],
 "system":[
   {"shell":"zsh"}
