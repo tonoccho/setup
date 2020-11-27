@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+if [ -d ${HOME}/.nodenv ]
+then
+  echo "[SKIP] nodenv is already installed"
+else
+  git clone https://github.com/nodenv/nodenv.git ~/.nodenv
+  echo "[INST] nodenv is installed"
+fi
+
+
