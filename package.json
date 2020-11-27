@@ -29,7 +29,16 @@
   {"package":"exfat-utils"},
   {"package":"photocollage"},
   {"package":"qgis"},
+  {"package":"openjdk-8-jdk"},
   {"package":"openjdk-11-jdk"},
+  {"package":"openjdk-13-jdk"},
+  {"package":"openjdk-14-jdk"},
+  {"package":"openjdk-15-jdk"},
+  {"package":"openjdk-8-doc"},
+  {"package":"openjdk-11-doc"},
+  {"package":"openjdk-13-doc"},
+  {"package":"openjdk-14-doc"},
+  {"package":"openjdk-15-doc"},
   {"package":"libheif-examples"},
   {"package":"nixnote2"},
   {"package":"libssl-dev"},
@@ -89,8 +98,6 @@
 "git":[
   {"host":"github.com","user":"tonoccho"  ,"repo":"dotfiles","postcmd":"mklink.sh","via":"ssh","link":""},
   {"host":"github.com","user":"yuru7"     ,"repo":"HackGen" ,"via":"https"},
-  {"host":"github.com","user":"pyenv"     ,"repo":"pyenv"   ,"via":"https"},
-  {"host":"github.com","user":"jenv"      ,"repo":"jenv"    ,"via":"https"}
 ],
 "system":[
   {"shell":"zsh"}
