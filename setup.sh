@@ -32,29 +32,22 @@ checkRequirement() {
   fi
 }
 
-setupHome() {
-  local num=`length ".home"`
+createDirectories() {
+  local num=`length ".home.directories"`
   local maxIndex=`decrement ${num}`
-  
-  info "Processing ${num} home preparation ..."
-  
+
+  info "Check home directories, creats if not exists ..."
+
   for i in `seq 0 ${maxIndex}`
   do
-    local type=`cat package.json | jq -r .home[${i}].type`
-    local name=`cat package.json | jq -r .home[${i}].name`
-    local targetHome=`cat /etc/passwd | grep ${SUDO_USER} | cut -f 6 -d ":"`
-  
-    if [ ${type} = "directory" ]
+    local name=`cat package.json | jq -r .home.directories[${i}]`
+    local targetDirectory="${HOME}/${name}"
+    if [ -d ${targetDirectory} ]
     then
-      local dirToMake=${targetHome}/${name}
-      if [ -d ${dirToMake} ]
-      then
-        skip ${dirToMake}
-      else
-        mkdir -p ${dirToMake}
-        chown ${SUDO_USER} ${dirToMake}
-        inst ${dirToMake}
-      fi
+      skip ${targetDirectory}
+    else
+      mkdir -p ${targetDirectory}
+      inst ${targetDirectory}
     fi
   done
 }
@@ -66,7 +59,7 @@ setupApt() {
   
   for i in `seq 0 ${nummaxIndex}`
   do
-    local package=`cat package.json | jq -r .apt[${i}].package`
+    local package=`cat package.json | jq -r .apt[${i}]`
     local result=`dpkg -l ${package} | tail -n 1 | cut -b 2`
     if [ "${result}" = "i" ]
     then

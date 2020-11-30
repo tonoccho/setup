@@ -1,20 +1,83 @@
 {
   "home":{
-    "direcories" : [
-      ".vim", ".vim/bundles", ".cache", ".local", ".local/share", ".gitrepos", ".lib"
+    "directories" : [
+      ".bin", 
+      "src", 
+      "bin"
     ]
   },
   "apt":[
-    "git", "mozc-utils-gui", "gimp", "inkscape", "snapd", "figlet", "toilet", "rawtherapee",
-    "gthumb", "tmux", "cowsay", "linuxlogo", "boxes", "ibus-mozc", "neofetch", "exfat-fuse",
-    "exfat-utils", "photocollage", "qgis", "openjdk-8-jdk", "openjdk-11-jdk", "openjdk-13-jdk",
-    "openjdk-14-jdk", "openjdk-15-jdk", "openjdk-8-doc", "openjdk-11-doc", "openjdk-13-doc",
-    "openjdk-14-doc", "openjdk-15-doc", "libheif-examples", "nixnote2", "libssl-dev", "libreadline-dev",
-    "zlib1g-dev", "go-mtpfs", "mtp-tools", "kdenlive", "keepass2", "virtualbox", "virtualbox-guest-additions-iso",
-    "virtualbox-dkms", "openvpn", "wmctrl", "vim", "tig", "git-flow", "digikam", "shotwell", "darktable",
-    "fish", "zsh", "fonts-powerline", "terminator", "powerline", "make", "build-essential", "libssl-dev",
-    "zlib1g-dev", "libbz2-dev", "libreadline-dev", "libsqlite3-dev", "wget", "curl", "llvm", "libncurses5-dev",
-    "xz-utils", "tk-dev", "libxml2-dev", "libxmlsec1-dev", "libffi-dev", "liblzma-dev"
+    "git", 
+    "mozc-utils-gui", 
+    "gimp", 
+    "inkscape", 
+    "snapd", 
+    "figlet", 
+    "toilet", 
+    "rawtherapee",
+    "gthumb", 
+    "tmux", 
+    "cowsay",
+    "linuxlogo", 
+    "boxes", 
+    "ibus-mozc", 
+    "neofetch", 
+    "exfat-fuse",
+    "exfat-utils", 
+    "photocollage", 
+    "qgis", 
+    "openjdk-8-jdk", 
+    "openjdk-11-jdk", 
+    "openjdk-13-jdk",
+    "openjdk-14-jdk", 
+    "openjdk-15-jdk", 
+    "openjdk-8-doc", 
+    "openjdk-11-doc", 
+    "openjdk-13-doc",
+    "openjdk-14-doc", 
+    "openjdk-15-doc", 
+    "libheif-examples", 
+    "nixnote2", 
+    "libssl-dev", 
+    "libreadline-dev",
+    "zlib1g-dev", 
+    "go-mtpfs", 
+    "mtp-tools", 
+    "kdenlive", 
+    "keepass2", 
+    "virtualbox", 
+    "virtualbox-guest-additions-iso",
+    "virtualbox-dkms", 
+    "openvpn", 
+    "wmctrl", 
+    "vim", 
+    "tig", 
+    "git-flow", 
+    "digikam", 
+    "shotwell", 
+    "darktable",
+    "fish", 
+    "zsh", 
+    "fonts-powerline", 
+    "terminator", 
+    "powerline", 
+    "make", 
+    "build-essential", 
+    "libssl-dev",
+    "zlib1g-dev", 
+    "libbz2-dev", 
+    "libreadline-dev", 
+    "libsqlite3-dev", 
+    "wget", 
+    "curl", 
+    "llvm", 
+    "libncurses5-dev",
+    "xz-utils", 
+    "tk-dev", 
+    "libxml2-dev", 
+    "libxmlsec1-dev", 
+    "libffi-dev", 
+    "liblzma-dev"
   ],
   "snap":[
     {"package":"code", "option":"--classic"},
@@ -27,11 +90,16 @@
   "dpkg":[
     {"package":"google-chrome-stable", "url":"https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"}
   ],
-  "git":[
-    {"comment" : "host and protocols are also available, but host is defaulted to github.com, protocol is defaulted to ssh",
-     "repo":"tonoccho/dotfiles", "cloneto":".dotfiles", "postcmd":"mklink.sh"}
-  ],
-  "system":[
-    {"shell":"zsh"}
-  ]
+  "git":{
+    "repos" : [
+      {"repo":"tonoccho/dotfiles", "cloneto":"${HOME}/.dotfiles", "protocol" : "ssh"}
+      {"repo":"rbenv/rbenv"      , "cloneto":"${HOME}/.rbenv"                       }
+      {"repo":"goenv/goenv"      , "cloneto":"${HOME}/.goenv"                       }
+      {"repo":"jenv/jenv"        , "cloneto":"${HOME}/.jenv"                        }
+      {"repo":"nodenv/nodenv"    , "cloneto":"${HOME}/.nodenv"                      }
+      {"repo":"pyenv/pyenv"      , "cloneto":"${HOME}/.pyenv"                       }
+      {"repo":"yuru7/hackgen"    , "cloneto":"${HOME}/src/github.com/yuru7/hackgen" }
+
+    ]
+  }
 }
