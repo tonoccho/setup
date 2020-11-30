@@ -3,7 +3,8 @@
     "directories" : [
       ".bin", 
       "src", 
-      "bin"
+      "bin",
+      ".cache/setup"
     ]
   },
   "apt":[

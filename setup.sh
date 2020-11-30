@@ -65,7 +65,7 @@ processApt() {
     else
       yes | sudo apt install ${packageName} > /dev/null 2>&1
       inst "${packageName} is installed"
-   fi
+    fi
   done
   info "Finished apt package process"
 }
@@ -89,6 +89,31 @@ processSnap() {
   done
 }
 
+processDpkg() {
+  local dpkgNum=`length .dpkg`
+  info "Processing ${dpkgNum} dpkgs"
+  local dpkgMaxIndex=`decrement ${dpkgNum}`
+  for i in `seq 0 ${dpkgMaxIndex}`
+  do
+    local dpkgPackage=`cat package.json | jq -r ".dpkg[${i}].package"`
+    local dpkgUrl=`cat package.json | jq -r ".dpkg[${i}].url"`
+    local dpkgFile=`echo ${dpkgUrl} | rev | cut -d '/' -f 1 | rev`
+    local packageSituation=`dpkg -l ${dpkgPackage} | grep ${dpkgPackage} | cut -d ' ' -f 1`
+
+    if [ ! -f ${HOME}/.cache/setup/${dpkgFile} ]
+    then
+      curl -o ${HOME}/.cache/setup/${dpkgFile} --create-dirs -s ${dpkgUrl}
+    fi
+
+    if [ ${packageSituation} = "ii" ]
+    then
+      skip "${dpkgPackage} is already installed"
+    else
+      yes | sudo dpkg -i ${HOME}/.cache/setup/${dpkgFile} > /dev/null 2>&1
+      inst "${dpkgPackage} is installed"
+    fi
+  done
+}
 
 info "apt update ..."
 #apt update > /dev/null 2>&1
@@ -96,4 +121,5 @@ info "apt update ..."
 processHome
 processApt
 processSnap
+processDpkg
 info "finished"
