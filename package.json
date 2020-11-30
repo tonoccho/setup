@@ -92,12 +92,12 @@
   ],
   "git":{
     "repos" : [
-      {"repo":"tonoccho/dotfiles", "cloneto":"${HOME}/.dotfiles", "protocol" : "ssh"}
-      {"repo":"rbenv/rbenv"      , "cloneto":"${HOME}/.rbenv"                       }
-      {"repo":"goenv/goenv"      , "cloneto":"${HOME}/.goenv"                       }
-      {"repo":"jenv/jenv"        , "cloneto":"${HOME}/.jenv"                        }
-      {"repo":"nodenv/nodenv"    , "cloneto":"${HOME}/.nodenv"                      }
-      {"repo":"pyenv/pyenv"      , "cloneto":"${HOME}/.pyenv"                       }
+      {"repo":"tonoccho/dotfiles", "cloneto":"${HOME}/.dotfiles", "protocol" : "ssh"},
+      {"repo":"rbenv/rbenv"      , "cloneto":"${HOME}/.rbenv"                       },
+      {"repo":"goenv/goenv"      , "cloneto":"${HOME}/.goenv"                       },
+      {"repo":"jenv/jenv"        , "cloneto":"${HOME}/.jenv"                        },
+      {"repo":"nodenv/nodenv"    , "cloneto":"${HOME}/.nodenv"                      },
+      {"repo":"pyenv/pyenv"      , "cloneto":"${HOME}/.pyenv"                       },
       {"repo":"yuru7/hackgen"    , "cloneto":"${HOME}/src/github.com/yuru7/hackgen" }
 
     ]
