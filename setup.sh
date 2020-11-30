@@ -28,7 +28,7 @@ checkRequirement() {
     info "jq is installed ..."
   else
     info "Installing jq"
-    yes | apt install jq
+    yes | sudo pt install jq
   fi
 }
 
@@ -70,10 +70,30 @@ processApt() {
   info "Finished apt package process"
 }
 
+processSnap() {
+  local snapNum=`length .snap`
+  info "Processing ${snapNum} snap packages"
+  local snapMaxIndex=`decrement ${snapNum}`
+  for i in `seq 0 ${snapMaxIndex}`
+  do
+    local snapName=`cat package.json | jq -r ".snap[${i}].package"`
+    local snapOption=`cat package.json | jq -r ".snap[${i}].option" | grep -v null`
+    local snapSituation=`snap list ${snapName} | grep ${snapName} | wc -l`
+    if [ ${snapSituation} -eq 1 ]
+    then
+      skip "${snapName} is already installed"
+    else
+      sudo snap install ${snapName} ${snapOption}
+      inst "${snapName} is installed"
+    fi
+  done
+}
+
 
 info "apt update ..."
 #apt update > /dev/null 2>&1
 #checkRequirement
 processHome
 processApt
+processSnap
 info "finished"
