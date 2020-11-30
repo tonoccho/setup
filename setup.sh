@@ -51,9 +51,29 @@ processHome() {
   info "Finished directory process"
 }
 
+processApt() {
+  local packageNum=`length .apt`
+  info "Processing ${packageNum} apt packages"
+  local packageMaxIndex=`decrement ${packageNum}`
+  for i in `seq 0 ${packageMaxIndex}`
+  do
+    local packageName=`cat package.json | jq -r ".apt[${i}]"`
+    local packageSituation=`dpkg -l ${packageName} | grep ${packageName} | cut -d ' ' -f 1`
+    if [ ${packageSituation} = "ii" ]
+    then
+      skip "${packageName} is already installed"
+    else
+      yes | sudo apt install ${packageName} > /dev/null 2>&1
+      inst "${packageName} is installed"
+   fi
+  done
+  info "Finished apt package process"
+}
+
 
 info "apt update ..."
 #apt update > /dev/null 2>&1
 #checkRequirement
 processHome
+processApt
 info "finished"
