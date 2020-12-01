@@ -100,7 +100,6 @@
       {"repo":"nodenv/nodenv"    , "cloneto":"${HOME}/.nodenv"                      },
       {"repo":"pyenv/pyenv"      , "cloneto":"${HOME}/.pyenv"                       },
       {"repo":"yuru7/hackgen"    , "cloneto":"${HOME}/src/github.com/yuru7/hackgen" }
-
     ]
   }
 }

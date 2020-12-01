@@ -115,6 +115,53 @@ processDpkg() {
   done
 }
 
+processGit() {
+  local gitrNum=`length .git.repos`
+  info "Processing ${gitrNum} git repositories"
+  local gitMaxIndex=`decrement ${gitrNum}`
+  for i in `seq 0 ${gitMaxIndex}`
+  do
+    local host=`cat package.json | jq -r ".git.repos[${i}].host"`
+    local protocol=`cat package.json | jq -r ".git.repos[${i}].protocol"`
+    local repository=`cat package.json | jq -r ".git.repos[${i}].repo"`
+    local cloneto=`cat package.json | jq -r ".git.repos[${i}].cloneto"`
+    cloneto=`eval echo ${cloneto}`
+
+    if [ ${host} = "null" ]
+    then
+      host="github.com"
+    fi
+
+    if [ ${protocol} = "null" ]
+    then
+      protocol="https"
+    fi
+
+    if [ ${cloneto} = "null" ]
+    then
+      cloneto="${HOME}/.gitrepos/${host}/${repository}"
+    fi
+
+    if [ ${protocol} = "https" ]
+    then
+      local command="git clone https://${host}/${repository}.git ${cloneto}"
+
+    elif [ ${protocol} = "ssh" ]
+    then
+      local command="git clone git@${host}:${repository}.git ${cloneto}"
+    fi
+
+    if [ -d ${cloneto} ]
+    then
+      skip "${repository} is already cloned"
+    else
+      ${command} > /dev/null 2>&1
+      inst "${repository} is cloned"
+    fi
+
+  done
+
+}
 info "apt update ..."
 #apt update > /dev/null 2>&1
 #checkRequirement
@@ -122,4 +169,5 @@ processHome
 processApt
 processSnap
 processDpkg
+processGit
 info "finished"
