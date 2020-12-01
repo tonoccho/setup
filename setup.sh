@@ -28,179 +28,147 @@ checkRequirement() {
     info "jq is installed ..."
   else
     info "Installing jq"
-    yes | apt install jq
+    yes | sudo pt install jq
   fi
 }
 
-setupHome() {
-  local num=`length ".home"`
-  local maxIndex=`decrement ${num}`
-  
-  info "Processing ${num} home preparation ..."
-  
-  for i in `seq 0 ${maxIndex}`
+processHome() {
+  local directoryNum=`length .home.directories`
+  info "Processing ${directoryNum} directories"
+  local directoryMaxIndex=`decrement ${directoryNum}`
+  for i in `seq 0 ${directoryMaxIndex}`
   do
-    local type=`cat package.json | jq -r .home[${i}].type`
-    local name=`cat package.json | jq -r .home[${i}].name`
-    local targetHome=`cat /etc/passwd | grep ${SUDO_USER} | cut -f 6 -d ":"`
-  
-    if [ ${type} = "directory" ]
+    local directoryName=`cat package.json | jq -r ".home.directories[${i}]"`
+    if [ -d ${HOME}/${directoryName} ]
     then
-      local dirToMake=${targetHome}/${name}
-      if [ -d ${dirToMake} ]
-      then
-        skip ${dirToMake}
-      else
-        mkdir -p ${dirToMake}
-        chown ${SUDO_USER} ${dirToMake}
-        inst ${dirToMake}
-      fi
+      skip "${HOME}/${directoryName} is already exists"
+    else
+      mkdir -p ${HOME}/${directoryName}
+      inst "${HOME}/${directoryName} is created"
+    fi
+  done
+
+  info "Finished directory process"
+}
+
+processApt() {
+  local packageNum=`length .apt`
+  info "Processing ${packageNum} apt packages"
+  local packageMaxIndex=`decrement ${packageNum}`
+  for i in `seq 0 ${packageMaxIndex}`
+  do
+    local packageName=`cat package.json | jq -r ".apt[${i}]"`
+    local packageSituation=`dpkg -l ${packageName} | grep ${packageName} | cut -d ' ' -f 1`
+    if [ ${packageSituation} = "ii" ]
+    then
+      skip "${packageName} is already installed"
+    else
+      yes | sudo apt install ${packageName} > /dev/null 2>&1
+      inst "${packageName} is installed"
+    fi
+  done
+  info "Finished apt package process"
+}
+
+processSnap() {
+  local snapNum=`length .snap`
+  info "Processing ${snapNum} snap packages"
+  local snapMaxIndex=`decrement ${snapNum}`
+  for i in `seq 0 ${snapMaxIndex}`
+  do
+    local snapName=`cat package.json | jq -r ".snap[${i}].package"`
+    local snapOption=`cat package.json | jq -r ".snap[${i}].option" | grep -v null`
+    local snapSituation=`snap list ${snapName} | grep ${snapName} | wc -l`
+    if [ ${snapSituation} -eq 1 ]
+    then
+      skip "${snapName} is already installed"
+    else
+      sudo snap install ${snapName} ${snapOption}
+      inst "${snapName} is installed"
     fi
   done
 }
 
-setupApt() {
-  local num=`length ".apt"`
-  local nummaxIndex=`decrement ${num}`
-  info "Processing ${num} apt packages ..."
-  
-  for i in `seq 0 ${nummaxIndex}`
+processDpkg() {
+  local dpkgNum=`length .dpkg`
+  info "Processing ${dpkgNum} dpkgs"
+  local dpkgMaxIndex=`decrement ${dpkgNum}`
+  for i in `seq 0 ${dpkgMaxIndex}`
   do
-    local package=`cat package.json | jq -r .apt[${i}].package`
-    local result=`dpkg -l ${package} | tail -n 1 | cut -b 2`
-    if [ "${result}" = "i" ]
+    local dpkgPackage=`cat package.json | jq -r ".dpkg[${i}].package"`
+    local dpkgUrl=`cat package.json | jq -r ".dpkg[${i}].url"`
+    local dpkgFile=`echo ${dpkgUrl} | rev | cut -d '/' -f 1 | rev`
+    local packageSituation=`dpkg -l ${dpkgPackage} | grep ${dpkgPackage} | cut -d ' ' -f 1`
+
+    if [ ! -f ${HOME}/.cache/setup/${dpkgFile} ]
     then
-      skip ${package}
+      curl -o ${HOME}/.cache/setup/${dpkgFile} --create-dirs -s ${dpkgUrl}
+    fi
+
+    if [ ${packageSituation} = "ii" ]
+    then
+      skip "${dpkgPackage} is already installed"
     else
-      yes | apt install ${package} > /dev/null 2>&1
-  
-      local result=$?
-  
-      if [ ${result} -eq 0 ]
-      then
-        inst ${package}
-      else
-        fail "${package} apt rc : ${result}" 
-      fi
+      yes | sudo dpkg -i ${HOME}/.cache/setup/${dpkgFile} > /dev/null 2>&1
+      inst "${dpkgPackage} is installed"
     fi
   done
 }
 
-setupDpkg() {
-  local num=`length ".dpkg"`
-  local maxIndex=`decrement ${num}`
-  info "Processing ${num} dpkg packages ..."
-  
-  for i in `seq 0 ${maxIndex}`
+processGit() {
+  local gitrNum=`length .git.repos`
+  info "Processing ${gitrNum} git repositories"
+  local gitMaxIndex=`decrement ${gitrNum}`
+  for i in `seq 0 ${gitMaxIndex}`
   do
-    local package=`cat package.json | jq -r .dpkg[${i}].package`
-    local url=`cat package.json | jq -r .dpkg[${i}].url`
-    local file=`cat package.json | jq -r .dpkg[${i}].file`
-    
-    local result=`dpkg -l ${package} | tail -n 1 | cut -b 2`
-    if [ "${result}" = "i" ]
+    local host=`cat package.json | jq -r ".git.repos[${i}].host"`
+    local protocol=`cat package.json | jq -r ".git.repos[${i}].protocol"`
+    local repository=`cat package.json | jq -r ".git.repos[${i}].repo"`
+    local cloneto=`cat package.json | jq -r ".git.repos[${i}].cloneto"`
+    cloneto=`eval echo ${cloneto}`
+
+    if [ ${host} = "null" ]
     then
-      skip ${package}
-    else
-      wget -P /tmp ${url} > /dev/null 2>&1
-      yes | apt install /tmp/${file} > /dev/null 2>&1
-  
-      local result=$?
-  
-      if [ ${result} -eq 0 ]
-      then
-        inst ${package}
-      else
-        fail "${package} apt rc : ${result}" 
-      fi
+      host="github.com"
     fi
-  done
-}
 
-setupSnap() {
-  local num=`length ".snap"`
-  local maxIndex=`decrement ${num}`
-  info "Processing ${num} snap packages ..."
-  
-  for i in `seq 0 ${maxIndex}`
-  do
-    local package=`cat package.json | jq -r .snap[${i}].package`
-    local option=`cat package.json | jq -r .snap[${i}].option`
-  
-    local installed=`snap list | grep ${package} | wc -l`
-  
-    if [ ${installed} -eq 0 ]
+    if [ ${protocol} = "null" ]
     then
-      local snapCmd="snap install ${package} ${option}"
-      eval "${snapCmd}" > /dev/null 2>&1
-  
-      local result=$?
-  
-      if [ ${result} -eq 0 ]
-      then
-        inst ${package}
-      else
-        fail "${package} snap rc : ${result}"
-      fi
-    else
-      skip ${package}
+      protocol="https"
     fi
-  done
-}
 
-setupGit(){
-  local num=`length ".git"`
-  local maxIndex=`decrement ${num}`
-  info "Processing ${num} git packages ..."
-  
-  for i in `seq 0 ${maxIndex}`
-  do
-    local host=`cat package.json | jq -r .git[${i}].host`
-    local user=`cat package.json | jq -r .git[${i}].user`
-    local repo=`cat package.json | jq -r .git[${i}].repo`
-    local postCommand=`cat package.json | jq -r .git[${i}].postcmd`
-    local protocol=`cat package.json | jq -r .git[${i}].via`
-    local url=`cat package.json | jq -r .git[${i}].link`
-  
-    if [ ${host} = "github.com" ] || [ ${host} = "bitbucket.org" ]
+    if [ ${cloneto} = "null" ]
     then
-      if [ ${protocol} = "ssh" ]
-      then
-        local repo_url=git@${host}:${user}/${repo}.git
-  
-      else
-        local repo_url=https://${host}/${user}/${repo}.git
-      fi
-    else
-      local repo_url=${url}
-    fi  
-  
-    local targetHome=`cat /etc/passwd | grep ${SUDO_USER} | cut -f 6 -d ":"`
-    local targetDir=${targetHome}/.gitrepos/${host}/${user}/${repo}
-  
-    if [ -d ${targetDir} ]
-    then
-      skip ${repo}
-    else
-      su - ${SUDO_USER} -c "git clone ${repo_url} ${targetDir}"
-      chown -R ${SUDO_USER} ${targetHome}/.gitrepos
-      su - ${SUDO_USER} -c "${targetDir}/${postCommand}"
-      inst ${repo_url}
+      cloneto="${HOME}/.gitrepos/${host}/${repository}"
     fi
+
+    if [ ${protocol} = "https" ]
+    then
+      local command="git clone https://${host}/${repository}.git ${cloneto}"
+
+    elif [ ${protocol} = "ssh" ]
+    then
+      local command="git clone git@${host}:${repository}.git ${cloneto}"
+    fi
+
+    if [ -d ${cloneto} ]
+    then
+      skip "${repository} is already cloned"
+    else
+      ${command} > /dev/null 2>&1
+      inst "${repository} is cloned"
+    fi
+
   done
+
 }
-
-if [ -z ${SUDO_USER} ]
-then
-  fail "please run this commans with sudo"
-  exit 1
-fi
-
 info "apt update ..."
-apt update > /dev/null 2>&1
-checkRequirement
-setupHome
-setupApt
-setupDpkg
-setupSnap
-setupGit
+#apt update > /dev/null 2>&1
+#checkRequirement
+processHome
+processApt
+processSnap
+processDpkg
+processGit
+
+info "finished"
