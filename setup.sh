@@ -28,7 +28,7 @@ checkRequirement() {
     info "jq is installed ..."
   else
     info "Installing jq"
-    yes | sudo pt install jq
+    yes | sudo apt install jq
   fi
 }
 
@@ -58,13 +58,19 @@ processApt() {
   for i in `seq 0 ${packageMaxIndex}`
   do
     local packageName=`cat package.json | jq -r ".apt[${i}]"`
-    local packageSituation=`dpkg -l ${packageName} | grep ${packageName} | cut -d ' ' -f 1`
-    if [ ${packageSituation} = "ii" ]
+    local packageSituation=`dpkg -l ${packageName} 2> /dev/null | grep ${packageName} | cut -d ' ' -f 1`
+    if [ "${packageSituation}" = "ii" ]
     then
       skip "${packageName} is already installed"
     else
       yes | sudo apt install ${packageName} > /dev/null 2>&1
-      inst "${packageName} is installed"
+      local rc=$?
+      if [ ${rc} -eq 0 ]
+      then
+        inst "${packageName} is installed"
+      else
+        fail "${packageName} is failed to install with ${rc}"
+      fi
     fi
   done
   info "Finished apt package process"
@@ -78,12 +84,12 @@ processSnap() {
   do
     local snapName=`cat package.json | jq -r ".snap[${i}].package"`
     local snapOption=`cat package.json | jq -r ".snap[${i}].option" | grep -v null`
-    local snapSituation=`snap list ${snapName} | grep ${snapName} | wc -l`
+    local snapSituation=`snap list ${snapName} 2> /dev/null | grep ${snapName} | wc -l`
     if [ ${snapSituation} -eq 1 ]
     then
       skip "${snapName} is already installed"
     else
-      sudo snap install ${snapName} ${snapOption}
+      sudo snap install ${snapName} ${snapOption} > /dev/null 2>&1
       inst "${snapName} is installed"
     fi
   done
@@ -98,14 +104,14 @@ processDpkg() {
     local dpkgPackage=`cat package.json | jq -r ".dpkg[${i}].package"`
     local dpkgUrl=`cat package.json | jq -r ".dpkg[${i}].url"`
     local dpkgFile=`echo ${dpkgUrl} | rev | cut -d '/' -f 1 | rev`
-    local packageSituation=`dpkg -l ${dpkgPackage} | grep ${dpkgPackage} | cut -d ' ' -f 1`
+    local packageSituation=`dpkg -l ${dpkgPackage} 2> /dev/null | grep ${dpkgPackage} | cut -d ' ' -f 1`
 
     if [ ! -f ${HOME}/.cache/setup/${dpkgFile} ]
     then
       curl -o ${HOME}/.cache/setup/${dpkgFile} --create-dirs -s ${dpkgUrl}
     fi
 
-    if [ ${packageSituation} = "ii" ]
+    if [ "${packageSituation}" = "ii" ]
     then
       skip "${dpkgPackage} is already installed"
     else
@@ -163,8 +169,8 @@ processGit() {
 
 }
 info "apt update ..."
-#apt update > /dev/null 2>&1
-#checkRequirement
+apt update > /dev/null 2>&1
+checkRequirement
 processHome
 processApt
 processSnap

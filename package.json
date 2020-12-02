@@ -93,9 +93,9 @@
   ],
   "git":{
     "repos" : [
-      {"repo":"tonoccho/dotfiles", "cloneto":"${HOME}/.dotfiles", "protocol" : "ssh"},
+      {"repo":"tonoccho/dotfiles", "cloneto":"${HOME}/.dotfiles"},
       {"repo":"rbenv/rbenv"      , "cloneto":"${HOME}/.rbenv"                       },
-      {"repo":"goenv/goenv"      , "cloneto":"${HOME}/.goenv"                       },
+      {"repo":"syndbg/goenv"      , "cloneto":"${HOME}/.goenv"                       },
       {"repo":"jenv/jenv"        , "cloneto":"${HOME}/.jenv"                        },
       {"repo":"nodenv/nodenv"    , "cloneto":"${HOME}/.nodenv"                      },
       {"repo":"pyenv/pyenv"      , "cloneto":"${HOME}/.pyenv"                       },
