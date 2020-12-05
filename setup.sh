@@ -32,25 +32,6 @@ checkRequirement() {
   fi
 }
 
-processHome() {
-  local directoryNum=`length .home.directories`
-  info "Processing ${directoryNum} directories"
-  local directoryMaxIndex=`decrement ${directoryNum}`
-  for i in `seq 0 ${directoryMaxIndex}`
-  do
-    local directoryName=`cat package.json | jq -r ".home.directories[${i}]"`
-    if [ -d ${HOME}/${directoryName} ]
-    then
-      skip "${HOME}/${directoryName} is already exists"
-    else
-      mkdir -p ${HOME}/${directoryName}
-      inst "${HOME}/${directoryName} is created"
-    fi
-  done
-
-  info "Finished directory process"
-}
-
 processApt() {
   local packageNum=`length .apt`
   info "Processing ${packageNum} apt packages"
@@ -211,7 +192,6 @@ processUrl() {
 info "apt update ..."
 apt update > /dev/null 2>&1
 checkRequirement
-processHome
 processApt
 processSnap
 processDpkg

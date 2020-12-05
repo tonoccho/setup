@@ -1,9 +1,4 @@
 {
-  "home":{
-    "directories" : [
-      ".setup/cache"
-    ]
-  },
   "apt":[
     "git", 
     "mozc-utils-gui", 
