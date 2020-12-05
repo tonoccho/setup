@@ -131,6 +131,7 @@ processGit() {
     local protocol=`cat package.json | jq -r ".git.repos[${i}].protocol"`
     local repository=`cat package.json | jq -r ".git.repos[${i}].repo"`
     local cloneto=`cat package.json | jq -r ".git.repos[${i}].cloneto"`
+    local depth=`cat package.json | jq -r ".git.repos[${i}].depth"`
     cloneto=`eval echo ${cloneto}`
 
     if [ ${host} = "null" ]
@@ -150,11 +151,18 @@ processGit() {
 
     if [ ${protocol} = "https" ]
     then
-      local command="git clone https://${host}/${repository}.git ${cloneto}"
+      local repourl="https://${host}/${repository}.git"
 
     elif [ ${protocol} = "ssh" ]
     then
-      local command="git clone git@${host}:${repository}.git ${cloneto}"
+      local repourl="git@${host}:${repository}.git"
+    fi
+
+    if [ ! ${depth} = "null" ]
+    then
+      local command="git clone --depth=${depth} ${repourl} ${cloneto}"
+    else
+      local command="git clone ${repourl} ${cloneto}"
     fi
 
     if [ -d ${cloneto} ]
@@ -162,7 +170,12 @@ processGit() {
       skip "${repository} is already cloned"
     else
       ${command} > /dev/null 2>&1
-      inst "${repository} is cloned"
+      if [ $? -eq 0 ]
+      then
+        inst "${repository} is cloned"
+      else
+        fail "failed to run ${command}"
+      fi
     fi
 
   done
