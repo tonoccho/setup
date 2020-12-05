@@ -106,16 +106,16 @@ processDpkg() {
     local dpkgFile=`echo ${dpkgUrl} | rev | cut -d '/' -f 1 | rev`
     local packageSituation=`dpkg -l ${dpkgPackage} 2> /dev/null | grep ${dpkgPackage} | cut -d ' ' -f 1`
 
-    if [ ! -f ${HOME}/.cache/setup/${dpkgFile} ]
+    if [ ! -f ${HOME}/.setup/cache/${dpkgFile} ]
     then
-      curl -o ${HOME}/.cache/setup/${dpkgFile} --create-dirs -s ${dpkgUrl}
+      curl -o ${HOME}/.setup/cache/${dpkgFile} --create-dirs -s ${dpkgUrl}
     fi
 
     if [ "${packageSituation}" = "ii" ]
     then
       skip "${dpkgPackage} is already installed"
     else
-      yes | sudo dpkg -i ${HOME}/.cache/setup/${dpkgFile} > /dev/null 2>&1
+      yes | sudo dpkg -i ${HOME}/.setup/cache/${dpkgFile} > /dev/null 2>&1
       inst "${dpkgPackage} is installed"
     fi
   done

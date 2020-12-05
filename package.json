@@ -1,10 +1,7 @@
 {
   "home":{
     "directories" : [
-      ".bin", 
-      "src", 
-      "bin",
-      ".cache/setup"
+      ".setup/cache"
     ]
   },
   "apt":[
