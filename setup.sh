@@ -181,6 +181,33 @@ processGit() {
   done
 
 }
+
+processUrl() {
+  local urlNum=`length .url`
+  info "Processing ${urlNum} url"
+  local urlMaxIndex=`decrement ${urlNum}`
+  for i in `seq 0 ${urlMaxIndex}`
+  do
+    local dlto=`cat package.json | jq -r ".url[${i}].dlto"`
+    local url=`cat package.json | jq -r ".url[${i}].url"`
+    local file=`echo ${url} | rev | cut -d '/' -f 1 | rev`
+    dlto=`eval echo ${dlto}`
+
+    if [ -f ${dlto}/${file} ]
+    then
+      skip "${file} already exists"
+    else
+      curl -o ${dlto}/${file} --create-dirs -s ${url}
+      if [ $? -eq 0 ]
+      then
+        inst "${file} is installed to ${dlto}"
+      else
+        fail "${file} is failed to download from ${url}"
+      fi
+    fi
+  done
+}
+
 info "apt update ..."
 apt update > /dev/null 2>&1
 checkRequirement
@@ -189,5 +216,6 @@ processApt
 processSnap
 processDpkg
 processGit
+processUrl
 
 info "finished"

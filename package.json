@@ -96,8 +96,14 @@
       {"repo":"jenv/jenv"        , "cloneto":"${HOME}/.jenv"                        },
       {"repo":"nodenv/nodenv"    , "cloneto":"${HOME}/.nodenv"                      },
       {"repo":"pyenv/pyenv"      , "cloneto":"${HOME}/.pyenv"                       },
-      {"repo":"yuru7/hackgen"    , "cloneto":"${HOME}/src/github.com/yuru7/hackgen" },
       {"repo":"Shougo/dein.vim"  , "cloneto":"${HOME}/.cache/dein/repos/github.com/Shougo/dein.vim", "depth":"1" }
     ]
-  }
+  },
+  "url":[
+    {"url":"https://github.com/yuru7/HackGen/raw/master/build/HackGenNerd-Bold.ttf", "dlto":"${HOME}/.fonts"},
+    {"url":"https://github.com/yuru7/HackGen/raw/master/build/HackGenNerd-Regular.ttf", "dlto":"${HOME}/.fonts"},
+    {"url":"https://github.com/yuru7/HackGen/raw/master/build/HackGenNerdConsole-Bold.ttf", "dlto":"${HOME}/.fonts"},
+    {"url":"https://github.com/yuru7/HackGen/raw/master/build/HackGenNerdConsole-Regular.ttf", "dlto":"${HOME}/.fonts"}
+  ]
+
 }
