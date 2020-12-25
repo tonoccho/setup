@@ -78,7 +78,8 @@
     {"package":"inkscape"},
     {"package":"shotcut", "option":"--classic"},
     {"package":"tusk"},
-    {"package":"lolcat"}
+    {"package":"lolcat"},
+    {"package":"spotify"}
   ],
   "dpkg":[
     {"package":"google-chrome-stable", "url":"https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"}
@@ -86,11 +87,13 @@
   "git":{
     "repos" : [
       {"repo":"tonoccho/dotfiles", "cloneto":"${HOME}/.dotfiles"},
-      {"repo":"rbenv/rbenv"      , "cloneto":"${HOME}/.rbenv"                       },
-      {"repo":"syndbg/goenv"      , "cloneto":"${HOME}/.goenv"                       },
-      {"repo":"jenv/jenv"        , "cloneto":"${HOME}/.jenv"                        },
-      {"repo":"nodenv/nodenv"    , "cloneto":"${HOME}/.nodenv"                      },
-      {"repo":"pyenv/pyenv"      , "cloneto":"${HOME}/.pyenv"                       },
+      {"repo":"rbenv/rbenv"      , "cloneto":"${HOME}/.rbenv"},
+      {"repo":"rbenv/ruby-build"      , "cloneto":"${HOME}/.rbenv/plugins/ruby-build"},
+      {"repo":"syndbg/goenv"      , "cloneto":"${HOME}/.goenv"},
+      {"repo":"jenv/jenv"        , "cloneto":"${HOME}/.jenv"},
+      {"repo":"nodenv/nodenv"    , "cloneto":"${HOME}/.nodenv"},
+      {"repo":"nodenv/node-build"    , "cloneto":"${HOME}/.nodenv/plugins/node-build"},
+      {"repo":"pyenv/pyenv"      , "cloneto":"${HOME}/.pyenv"},
       {"repo":"Shougo/dein.vim"  , "cloneto":"${HOME}/.cache/dein/repos/github.com/Shougo/dein.vim", "depth":"1" }
     ]
   },
