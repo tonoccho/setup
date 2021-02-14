@@ -38,6 +38,8 @@
     "mtp-tools", 
     "kdenlive", 
     "keepass2", 
+    "keepassx", 
+    "keepassxc", 
     "virtualbox", 
     "virtualbox-guest-additions-iso",
     "virtualbox-dkms", 
@@ -71,7 +73,8 @@
     "libxmlsec1-dev", 
     "libffi-dev", 
     "liblzma-dev",
-    "slack-desktop"
+    "slack-desktop",
+    "yubikey-personalization-gui"
   ],
   "snap":[
     {"package":"code", "option":"--classic"},
@@ -80,7 +83,8 @@
     {"package":"shotcut", "option":"--classic"},
     {"package":"tusk"},
     {"package":"lolcat"},
-    {"package":"spotify"}
+    {"package":"spotify"},
+    {"package":"bluemail"}
   ],
   "dpkg":[
     {"package":"google-chrome-stable", "url":"https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"}
