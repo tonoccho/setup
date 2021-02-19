@@ -74,7 +74,10 @@
     "libffi-dev", 
     "liblzma-dev",
     "slack-desktop",
-    "yubikey-personalization-gui"
+    "yubikey-personalization-gui",
+    "thunderbird",
+    "thunderbird-locale-ja",
+    "sylpheed"
   ],
   "snap":[
     {"package":"code", "option":"--classic"},
