@@ -1,0 +1,42 @@
+#/usr/bin/env bash
+#
+# Setup script runner
+#
+# This script runs scripts under scripts directory by dictionery order.
+# Once the script finished successfully, it is recorded.
+#
+
+CURRENT=$(cd $(dirname $0);pwd)
+DATABASE_PATH=${HOME}/.local/share/toastee/toastee.db 
+
+which sqlite3 > /dev/null 2>&1
+if [ $? -ne 0 ]
+then
+  sudo apt install -y sqlite3 > /dev/null 2>&1
+fi
+
+echo ".open ${DATABASE_PATH}" | sqlite3
+sqlite3 ${DATABASE_PATH} "CREATE TABLE IF NOT EXISTS CHANGELOG(script_path text, run_at timestamp)"
+
+for i in `ls ${CURRENT}/scripts`
+do
+  count=$(sqlite3 ${DATABASE_PATH} "SELECT COUNT(*) FROM CHANGELOG WHERE script_path=\"${CURRENT}/scripts/$i\"")
+  if [ $count -eq 1 ]
+  then
+    echo "running ${CURRENT}/scripts/$i - skipped"   
+  else
+    ${CURRENT}/scripts/$i
+    rc=$?
+    if [ $rc -eq 0 ]
+    then
+      sqlite3 ${DATABASE_PATH} "INSERT INTO CHANGELOG VALUES(\"${CURRENT}/scripts/$i\", CURRENT_TIMESTAMP)"
+    elif [ $rc -eq 9 ]
+    then
+      echo "running ${CURRENT}/scripts/$i - failure, program finish"
+      break
+    fi
+  fi
+done
+echo "setup finished, show ing CHANGELOG"
+sqlite3 ${DATABASE_PATH} "SELECT * FROM CHANGELOG"
+
