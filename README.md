@@ -27,5 +27,7 @@ cd setup
 
 ### 一時的にhttpでクローンしたリポジトリを改めてSSHでクローンし直す
 
-- yadm clone -f git@github.com:tonoccho/dotfiles.git
-- cd ~ && rm -rf setup && git clone git@github.com:tonoccho/setup.git
+```
+yadm clone -f git@github.com:tonoccho/dotfiles.git
+cd ~ && rm -rf setup && git clone git@github.com:tonoccho/setup.git
+```
