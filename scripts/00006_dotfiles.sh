@@ -7,7 +7,7 @@ then
   sudo apt install -y yadm > /dev/null 2>&1
 fi
 
-if [ -f /home/seiji/.local/share/yadm/repo.git ]
+if [ -d ${HOME}/.local/share/yadm/repo.git ]
 then
   exit 0
 else
