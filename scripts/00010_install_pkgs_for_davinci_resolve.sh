@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in $(echo 'git flatpak snapd')
+for i in $(echo 'libapr1 libaprutil1 libxcb-composite0 libxcb-cursor0 libxcb-damage0')
 do
   INSTALLATION=$(dpkg -l | grep "^ii  ${i} .*$" | wc -l)
   if [ ${INSTALLATION} -eq 0 ]
