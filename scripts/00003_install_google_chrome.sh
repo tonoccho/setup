@@ -7,14 +7,14 @@ then
   mkdir -p ${DOWNLOAD_DIR}
 fi
 
-INSTALLATION=$(dpkg -l | grep '^ii  code .*$' | wc -l)
+INSTALLATION=$(dpkg -l | grep '^ii  google-chrome-stable .*$' | wc -l)
 
 if [ ${INSTALLATION} -eq 1 ]
 then
   exit 0
 else
-  wget -O ${DOWNLOAD_DIR}/code.deb "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64"
-  sudo apt install -y ${DOWNLOAD_DIR}/code.deb
+  wget -O ${DOWNLOAD_DIR}/chrome.deb "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+  sudo apt install -y ${DOWNLOAD_DIR}/chrome.deb
   if [ $? -ne 0 ]
   then
     exit 9

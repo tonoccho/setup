@@ -7,7 +7,7 @@ then
   mkdir -p ${DOWNLOAD_DIR}
 fi
 
-INSTALLATION=$(dpkg -l | grep '^ii.*1password.*$' | wc -l)
+INSTALLATION=$(dpkg -l | grep '^ii  1password .*$' | wc -l)
 
 if [ ${INSTALLATION} -eq 1 ]
 then
