@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in $(echo 'git flatpak snap')
+for i in $(echo 'git flatpak snapd')
 do
   INSTALLATION=$(dpkg -l | grep "^ii  ${i} .*$" | wc -l)
   if [ ${INSTALLATION} -eq 0 ]

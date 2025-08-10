@@ -5,6 +5,10 @@
 # This script runs scripts under scripts directory by dictionery order.
 # Once the script finished successfully, it is recorded.
 #
+if [ ! -d ${HOME}/.local/share/toastee/ ]
+then
+  mkdir -p ${HOME}/.local/share/toastee/
+fi
 
 CURRENT=$(cd $(dirname $0);pwd)
 DATABASE_PATH=${HOME}/.local/share/toastee/toastee.db 
