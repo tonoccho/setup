@@ -5,6 +5,7 @@ PopOSをセットアップするためのオレオレスクリプト
 ## やりかた（本人が忘れないために）
 
 ```
+cd ~
 git clone https://github.com/tonoccho/setup.git
 cd setup
 ./setup.sh
@@ -12,7 +13,9 @@ cd setup
 
 ## 他
 
-手動ではできないものはそれぞれ自分でやること。
+自動ではできないものはそれぞれ自分でやること。
+
+### 手動インストールするアプリ
 
 - [Davinci Resolve](https://www.blackmagicdesign.com/jp/products/davinciresolve)
 
@@ -25,4 +28,4 @@ cd setup
 ### 一時的にhttpでクローンしたリポジトリを改めてSSHでクローンし直す
 
 - yadm clone -f git@github.com:tonoccho/dotfiles.git
-- cd ~ & rm -rf setup & git clone git@github.com:tonoccho/setup.git
+- cd ~ && rm -rf setup && git clone git@github.com:tonoccho/setup.git
