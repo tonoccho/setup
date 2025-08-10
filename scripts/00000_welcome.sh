@@ -13,4 +13,6 @@ fi
 
 figlet "SETUP"
 
+sudo apt update > /dev/null 2>&1
+
 exit 1
