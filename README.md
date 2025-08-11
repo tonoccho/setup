@@ -21,11 +21,7 @@ sudo apt-get dist-upgrade
 
 詳しいやり方は[Quick start installation guide](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/quick-start.html)を参照する。
 
-自動的にやっても良さそうではあるが、なんとなく違う気がしたので手作業でやるようにする。具体的な手順は以下の通り
-
-1. /etc/os-releaseのIDを"ubuntu"に修正、こうしないとドライバのインストールができないので苦肉の策
-2. ドライバをインストール
-3. /etc/os-releaseのIDを"pop"に修正、こうしないとドライバのインストールができないので苦肉の策
+ここでrocmとGPUドライバーを入れる。
 
 ## セットアップの実行（本人が忘れないために）
 
@@ -42,15 +38,11 @@ cd setup
 
 セットアップスクリプトを実行したあとに一旦再起動し、以下の作業をやる。
 
-### Davinci Resolveのセットアップ
+### 1 Passwordの設定
 
-- [Davinci Resolve](https://www.blackmagicdesign.com/jp/products/davinciresolve)
+設定 -> 開発者 -> SSHエージェントの有効化
 
-### 日本語の設定
-
-1．設定 -> 地域と言語 -> インストールされている言語の管理 -> 指示に従ってインストールを実行
-2. 再起動
-3. 設定 -> キーボード -> 追加 -> 日本語(Mozc)
+これをやらないとgitリポジトリへのアクセスができない、あと、gitリポジトリへのアクセス時には1 Password 起動しとくこと
 
 ### 一時的にhttpでクローンしたリポジトリを改めてSSHでクローンし直す
 
@@ -58,3 +50,12 @@ cd setup
 yadm clone -f git@github.com:tonoccho/dotfiles.git
 cd ~ && rm -rf setup && git clone git@github.com:tonoccho/setup.git
 ```
+### 日本語の設定
+
+1．設定 -> 地域と言語 -> インストールされている言語の管理 -> 指示に従ってインストールを実行
+2. 再起動
+3. 設定 -> キーボード -> 追加 -> 日本語(Mozc)
+
+### Davinci Resolveのセットアップ
+
+- [Davinci Resolve](https://www.blackmagicdesign.com/jp/products/davinciresolve)
