@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in $(echo 'krita darktable rawtherapee inkscape gimp')
+for i in $(echo 'krita darktable inkscape gimp')
 do
   INSTALLATION=$(snap list $i | grep $i | wc -l)
   if [ ${INSTALLATION} -eq 0 ]

@@ -59,3 +59,7 @@ cd ~ && rm -rf setup && git clone git@github.com:tonoccho/setup.git
 ### Davinci Resolveのセットアップ
 
 - [Davinci Resolve](https://www.blackmagicdesign.com/jp/products/davinciresolve)
+
+### Localのセットアップ
+
+- [Local](https://localwp.com/)
