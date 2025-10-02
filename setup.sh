@@ -34,6 +34,11 @@ do
     if [ $rc -eq 0 ]
     then
       sqlite3 ${DATABASE_PATH} "INSERT INTO CHANGELOG VALUES(\"${CURRENT}/scripts/$i\", CURRENT_TIMESTAMP)"
+    elif [ $rc -eq 3 ]
+    then
+      sqlite3 ${DATABASE_PATH} "INSERT INTO CHANGELOG VALUES(\"${CURRENT}/scripts/$i\", CURRENT_TIMESTAMP)"
+      echo "please reboot then run setup again"
+      break    
     elif [ $rc -eq 9 ]
     then
       echo "running ${CURRENT}/scripts/$i - failure, program finish"
