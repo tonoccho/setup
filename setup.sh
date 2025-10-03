@@ -24,24 +24,33 @@ sqlite3 ${DATABASE_PATH} "CREATE TABLE IF NOT EXISTS CHANGELOG(script_path text,
 
 for i in `ls ${CURRENT}/scripts`
 do
+  echo -n "running ${CURRENT}/scripts/$i ... "
   count=$(sqlite3 ${DATABASE_PATH} "SELECT COUNT(*) FROM CHANGELOG WHERE script_path=\"${CURRENT}/scripts/$i\"")
   if [ $count -eq 1 ]
   then
-    echo "running ${CURRENT}/scripts/$i - skipped"   
+    echo "skipped"   
   else
     ${CURRENT}/scripts/$i
     rc=$?
     if [ $rc -eq 0 ]
     then
       sqlite3 ${DATABASE_PATH} "INSERT INTO CHANGELOG VALUES(\"${CURRENT}/scripts/$i\", CURRENT_TIMESTAMP)"
+      echo "success"
+      
+    elif [ $rc -eq 1 ]
+    then
+      sqlite3 ${DATABASE_PATH} "INSERT INTO CHANGELOG VALUES(\"${CURRENT}/scripts/$i\", CURRENT_TIMESTAMP)"
+      echo "success, but will be run next time"
+
     elif [ $rc -eq 3 ]
     then
       sqlite3 ${DATABASE_PATH} "INSERT INTO CHANGELOG VALUES(\"${CURRENT}/scripts/$i\", CURRENT_TIMESTAMP)"
       echo "please reboot then continue"
       break    
+
     elif [ $rc -eq 9 ]
     then
-      echo "running ${CURRENT}/scripts/$i - failure, program finish"
+      echo "failed"
       break
     fi
   fi
