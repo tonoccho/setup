@@ -29,7 +29,7 @@ sudo apt-get dist-upgrade
 
 ```
 cd ~
-git clone https://github.com/tonoccho/setup.git
+git clone https://github.com/tonoccho/setup.git 
 cd setup
 ./setup.sh
 ```
