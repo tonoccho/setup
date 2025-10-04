@@ -3,16 +3,20 @@
 SCRIPT_DIR=$(cd $(dirname $0);pwd)
 source ${SCRIPT_DIR}/../functions.sh
 DOWNLOAD_DIR=${HOME}/.bin
+URL=https://download.gimp.org/gimp/v3.0/linux/GIMP-3.0.4-x86_64.AppImage
+FILENAME=GIMP-3.0.4-x86_64.AppImage
+LINKNAME=GIMP
+APPNAME=GIMP
 
-if [ -f ${DOWNLOAD_DIR}/GIMP-3.0.4-x86_64.AppImage ]
+if [ -f ${DOWNLOAD_DIR}/${FILENAME} ]
 then
-  echo "GIMP is already installed"
+  echo "${APPNAME} is already installed"
   exit 0
 else
-  echo -n "installing GIMP ..."
-  wget -O ${DOWNLOAD_DIR}/GIMP-3.0.4-x86_64.AppImage "https://download.gimp.org/gimp/v3.0/linux/GIMP-3.0.4-x86_64.AppImage"  > /dev/null 2>&1
-  chmod +x ${DOWNLOAD_DIR}/GIMP-3.0.4-x86_64.AppImage  > /dev/null 2>&1
-  ln -s ${DOWNLOAD_DIR}/GIMP-3.0.4-x86_64.AppImage ${DOWNLOAD_DIR}/GIMP
+  echo -n "installing ${APPNAME} ..."
+  wget -O ${DOWNLOAD_DIR}/${FILENAME} "${URL}"  > /dev/null 2>&1
+  chmod +x ${DOWNLOAD_DIR}/${FILENAME}  > /dev/null 2>&1
+  ln -s ${DOWNLOAD_DIR}/${FILENAME} ${DOWNLOAD_DIR}/${LINKNAME}
   result=$?
   if [ $? -eq 0 ]
   then

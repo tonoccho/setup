@@ -3,16 +3,20 @@
 SCRIPT_DIR=$(cd $(dirname $0);pwd)
 source ${SCRIPT_DIR}/../functions.sh
 DOWNLOAD_DIR=${HOME}/.bin
+URL=https://download.kde.org/stable/krita/5.2.13/krita-5.2.13-x86_64.AppImage
+FILENAME=krita-5.2.13-x86_64.AppImage
+LINKNAME=krita
+APPNAME=krita
 
-if [ -f ${DOWNLOAD_DIR}/krita-5.2.13-x86_64.AppImage ]
+if [ -f ${DOWNLOAD_DIR}/${FILENAME} ]
 then
-  echo "krita is already installed"
+  echo "${APPNAME} is already installed"
   exit 0
 else
-  echo -n "installing krita ..."
-  wget -O ${DOWNLOAD_DIR}/krita-5.2.13-x86_64.AppImage "https://download.kde.org/stable/krita/5.2.13/krita-5.2.13-x86_64.AppImage"  > /dev/null 2>&1
-  chmod +x ${DOWNLOAD_DIR}/krita-5.2.13-x86_64.AppImage  > /dev/null 2>&1
-  ln -s ${DOWNLOAD_DIR}/krita-5.2.13-x86_64.AppImage ${DOWNLOAD_DIR}/krita
+  echo -n "installing ${APPNAME} ..."
+  wget -O ${DOWNLOAD_DIR}/${FILENAME} "${URL}"  > /dev/null 2>&1
+  chmod +x ${DOWNLOAD_DIR}/${FILENAME}  > /dev/null 2>&1
+  ln -s ${DOWNLOAD_DIR}/${FILENAME} ${DOWNLOAD_DIR}/${LINKNAME}
   result=$?
   if [ $? -eq 0 ]
   then
