@@ -25,8 +25,6 @@ else
   fi
 fi
 
-echo "now starting 1password, please do login and initial settings"
-1password
-read -p "press enter ley when you are ready"
+echo "launch 1 password for the initial setup, then continue"
 
-exit 0
+exit 3
