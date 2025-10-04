@@ -4,7 +4,7 @@ SCRIPT_DIR=$(cd $(dirname $0);pwd)
 source ${SCRIPT_DIR}/../functions.sh
 DOWNLOAD_DIR=${HOME}/.local/share/toastee
 
-INSTALLATION=$(dpkg -l | grep '^ii  virtualbox .*$' | wc -l)
+INSTALLATION=$(dpkg -l | grep '^ii  virtualbox-7.2 .*$' | wc -l)
 
 if [ ${INSTALLATION} -eq 1 ]
 then
