@@ -3,7 +3,7 @@
 SCRIPT_DIR=$(cd $(dirname $0);pwd)
 source ${SCRIPT_DIR}/../functions.sh
 
-for i in $(echo 'flatpak snapd ibus-mozc mozc-data mozc-server mozc-utils-gui git-flow libimage-exiftool-perl yadm')
+for i in $(echo 'flatpak snapd ibus-mozc mozc-data mozc-server mozc-utils-gui git-flow libimage-exiftool-perl yadm g810-led')
 do
   INSTALLATION=$(dpkg -l | grep "^ii  ${i} .*$" | wc -l)
   if [ ${INSTALLATION} -eq 0 ]

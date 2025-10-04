@@ -2,18 +2,17 @@
 # 必ずやる処理
 SCRIPT_DIR=$(cd $(dirname $0);pwd)
 source ${SCRIPT_DIR}/../functions.sh
-DOWNLOAD_DIR=${HOME}/.local/share/toastee
+DOWNLOAD_DIR=${HOME}/.bin
 
-echo $DOWNLOAD_DIR
-if [ -f ${DOWNLOAD_DIR}/krita.AppImage ]
+if [ -f ${DOWNLOAD_DIR}/krita-5.2.13-x86_64.AppImage ]
 then
   echo "krita is already installed"
   exit 0
 else
   echo -n "installing krita ..."
-  wget -O ${DOWNLOAD_DIR}/krita.AppImage "https://download.kde.org/stable/krita/5.2.13/krita-5.2.13-x86_64.AppImage"  > /dev/null 2>&1
-  chmod +x ${DOWNLOAD_DIR}/krita.AppImage  > /dev/null 2>&1
-  
+  wget -O ${DOWNLOAD_DIR}/krita-5.2.13-x86_64.AppImage "https://download.kde.org/stable/krita/5.2.13/krita-5.2.13-x86_64.AppImage"  > /dev/null 2>&1
+  chmod +x ${DOWNLOAD_DIR}/krita-5.2.13-x86_64.AppImage  > /dev/null 2>&1
+  ln -s ${DOWNLOAD_DIR}/krita-5.2.13-x86_64.AppImage ${DOWNLOAD_DIR}/krita
   result=$?
   if [ $? -eq 0 ]
   then

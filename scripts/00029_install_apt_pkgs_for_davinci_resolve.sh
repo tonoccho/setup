@@ -27,4 +27,5 @@ done
 echo "please install davinci resolve by hand"
 echo "refer to https://www.danieltufvesson.com/makeresolvedeb for making deb package"
 echo "once you have made a deb, please continue"
+echo "${HOME}/.local/share/toastee/davinci-resolve_20.2.1-mrd1.8.3_amd64.deb is required for the next step" 
 exit 3

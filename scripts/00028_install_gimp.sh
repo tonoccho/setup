@@ -2,18 +2,17 @@
 # 必ずやる処理
 SCRIPT_DIR=$(cd $(dirname $0);pwd)
 source ${SCRIPT_DIR}/../functions.sh
-DOWNLOAD_DIR=${HOME}/.local/share/toastee
+DOWNLOAD_DIR=${HOME}/.bin
 
-echo $DOWNLOAD_DIR
-if [ -f ${DOWNLOAD_DIR}/GIMP.AppImage ]
+if [ -f ${DOWNLOAD_DIR}/GIMP-3.0.4-x86_64.AppImage ]
 then
   echo "GIMP is already installed"
   exit 0
 else
   echo -n "installing GIMP ..."
-  wget -O ${DOWNLOAD_DIR}/GIMP.AppImage "https://download.gimp.org/gimp/v3.0/linux/GIMP-3.0.4-x86_64.AppImage"  > /dev/null 2>&1
-  chmod +x ${DOWNLOAD_DIR}/GIMP.AppImage  > /dev/null 2>&1
-  
+  wget -O ${DOWNLOAD_DIR}/GIMP-3.0.4-x86_64.AppImage "https://download.gimp.org/gimp/v3.0/linux/GIMP-3.0.4-x86_64.AppImage"  > /dev/null 2>&1
+  chmod +x ${DOWNLOAD_DIR}/GIMP-3.0.4-x86_64.AppImage  > /dev/null 2>&1
+  ln -s ${DOWNLOAD_DIR}/GIMP-3.0.4-x86_64.AppImage ${DOWNLOAD_DIR}/GIMP
   result=$?
   if [ $? -eq 0 ]
   then

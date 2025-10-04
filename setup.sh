@@ -45,7 +45,7 @@ do
     elif [ $rc -eq 3 ]
     then
       sqlite3 ${DATABASE_PATH} "INSERT INTO CHANGELOG VALUES(\"${CURRENT}/scripts/$i\", CURRENT_TIMESTAMP)"
-      echo "please reboot then continue"
+      
       break    
 
     elif [ $rc -eq 9 ]
