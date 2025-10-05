@@ -14,5 +14,5 @@ else
   exit 9
 fi
 
-echo "Home folder is now shown in English"
+echo "Home folder is now shown in English, please reboot once, then continue"
 exit 3

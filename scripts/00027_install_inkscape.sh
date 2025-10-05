@@ -2,7 +2,7 @@
 # 必ずやる処理
 SCRIPT_DIR=$(cd $(dirname $0);pwd)
 source ${SCRIPT_DIR}/../functions.sh
-DOWNLOAD_DIR=${HOME}/.bin
+DOWNLOAD_DIR=${HOME}/Applications
 URL=https://inkscape.org/gallery/item/56343/Inkscape-ebf0e94-x86_64.AppImage
 FILENAME=Inkscape-ebf0e94-x86_64.AppImage
 LINKNAME=Inkscape
@@ -16,7 +16,7 @@ else
   echo -n "installing ${APPNAME} ..."
   wget -O ${DOWNLOAD_DIR}/${FILENAME} "${URL}"  > /dev/null 2>&1
   chmod +x ${DOWNLOAD_DIR}/${FILENAME}  > /dev/null 2>&1
-  ln -s ${DOWNLOAD_DIR}/${FILENAME} ${DOWNLOAD_DIR}/${LINKNAME}
+  ln -s ${DOWNLOAD_DIR}/${FILENAME} ${HOME}/.bin/${LINKNAME}
   result=$?
   if [ $? -eq 0 ]
   then

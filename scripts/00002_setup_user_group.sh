@@ -7,11 +7,11 @@ source ${SCRIPT_DIR}/../functions.sh
 for i in `echo video`
 do
   echo -n "checking $LOGNAME is a member of $i ... "
-  result=$(getent group video |  grep $LOGNAME | wc -l)
+  result=$(getent group $i |  grep $LOGNAME | wc -l)
   if [ $result -eq 1 ]
   then
     echo "already the member of $i"
-  elif [ $result -eq 1 ]
+  elif [ $result -eq 0 ]
   then
     echo -n "adding $LOGNAME to group $i ... "
     sudo usermod -a -G $i $LOGNAME > /dev/null 2>&1
