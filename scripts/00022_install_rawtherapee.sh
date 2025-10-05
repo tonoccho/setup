@@ -3,16 +3,19 @@
 SCRIPT_DIR=$(cd $(dirname $0);pwd)
 source ${SCRIPT_DIR}/../functions.sh
 DOWNLOAD_DIR=${HOME}/.bin
+URL=https://rawtherapee.com/shared/builds/linux/RawTherapee_5.12_release.AppImage
+FILENAME=RawTherapee_5.12_release.AppImage
+LINKNAME=RawTherapee
+APPNAME=RawTherapee
 
-if [ -f ${DOWNLOAD_DIR}/RawTherapee_5.12_release.AppImage ]
+if [ -f ${DOWNLOAD_DIR}/${FILENAME} ]
 then
-  echo "RawTherapee is already installed"
+  echo "${APPNAME} is already installed"
   exit 0
 else
-  echo -n "installing RawTherapee ..."
-  wget -O ${DOWNLOAD_DIR}/RawTherapee_5.12_release.AppImage "https://rawtherapee.com/shared/builds/linux/RawTherapee_5.12_release.AppImage"  > /dev/null 2>&1
-  chmod +x ${DOWNLOAD_DIR}/RawTherapee_5.12_release.AppImage  > /dev/null 2>&1
-  ln -s ${DOWNLOAD_DIR}/RawTherapee_5.12_release.AppImage ${DOWNLOAD_DIR}/RawTherapee
+  echo -n "installing ${APPNAME} ..."
+  wget -O ${DOWNLOAD_DIR}/${FILENAME} "${URL}"  > /dev/null 2>&1
+  chmod +x ${DOWNLOAD_DIR}/${FILENAME}  > /dev/null 2>&1
   result=$?
   if [ $? -eq 0 ]
   then
