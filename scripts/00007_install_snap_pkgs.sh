@@ -25,7 +25,7 @@ do
 done
 
 ## そのまま入れるパッケージ
-for i in $(echo 'intel-npu-driver')
+for i in $(echo 'intel-npu-driver vlc')
 do
   INSTALLATION=$(snap list ${i} | grep latest/stable | wc -l)
   if [ ${INSTALLATION} -eq 0 ]
