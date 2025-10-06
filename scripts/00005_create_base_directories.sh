@@ -3,7 +3,7 @@
 SCRIPT_DIR=$(cd $(dirname $0);pwd)
 source ${SCRIPT_DIR}/../functions.sh
 
-for i in `echo ".local/share/fonts .bin .icon Applications Documents/src"`
+for i in `echo ".local/share/fonts .bin .icon Applications Documents/src .opt"`
 do
   if [ ! -d ${HOME}/$i ]
   then
