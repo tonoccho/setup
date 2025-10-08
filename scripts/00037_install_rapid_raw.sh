@@ -5,7 +5,7 @@ source ${SCRIPT_DIR}/../functions.sh
 DOWNLOAD_DIR=${HOME}/.local/share/toastee
 
 
-INSTALLATION=$(dpkg -l | grep '^ii  rapid_raw .*$' | wc -l)
+INSTALLATION=$(dpkg -l | grep '^ii  rapid-raw .*$' | wc -l)
 
 if [ ${INSTALLATION} -eq 1 ]
 then
@@ -24,7 +24,4 @@ else
     exit 9
   fi
 fi
-
-echo "launch 1 password for the initial setup, then continue"
-
-exit 3
+exit 0

@@ -6,7 +6,7 @@ SOURCE_DIR=${HOME}/Documents/src/scripton_tea/
 
 for i in `ls ${SOURCE_DIR}/scripts`
 do
-  ln -s ${SOURCE_DIR}/scripts/${i} ${HOME}/.bin/${i}
+  ln -nfs ${SOURCE_DIR}/scripts/${i} ${HOME}/.bin/${i}
     result=$?
   if [ $result -eq 0 ]
   then
