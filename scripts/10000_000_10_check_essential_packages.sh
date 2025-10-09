@@ -8,11 +8,29 @@ EXIT_CODE=$EXIT_CODE_OK
 SHELL_PATH=$0
 SHELL_DESCRIPTION="check installation of essential packages"
 
+# Packages, please add as you need
+PACKAGES="figlet "
+PACKAGES="${PACKAGES} git "
+PACKAGES="${PACKAGES} flatpak "
+PACKAGES="${PACKAGES} snapd "
+PACKAGES="${PACKAGES} ibus-mozc "
+PACKAGES="${PACKAGES} mozc-data "
+PACKAGES="${PACKAGES} mozc-server "
+PACKAGES="${PACKAGES} mozc-utils-gui "
+PACKAGES="${PACKAGES} git-flow "
+PACKAGES="${PACKAGES} libimage-exiftool-perl "
+PACKAGES="${PACKAGES} yadm "
+PACKAGES="${PACKAGES} g810-led "
+PACKAGES="${PACKAGES} libfuse3-3 "
+PACKAGES="${PACKAGES} fakeroot "
+PACKAGES="${PACKAGES} ubuntu-restricted-extras "
+PACKAGES="${PACKAGES} ffmpeg"
+
 info 0 "start ${SHELL_PATH} - ${SHELL_DESCRIPTION}"
 
 info 2 "package check start"
 # Check and install very basic software
-for i in $(echo 'figlet git flatpak snapd')
+for i in $(echo "${PACKAGES}")
 do
   INSTALLATION=$(dpkg -l | grep "^ii  ${i} .*$" | wc -l)
   if [ ${INSTALLATION} -eq 0 ]
