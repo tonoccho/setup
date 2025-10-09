@@ -6,13 +6,13 @@ source ${SCRIPT_DIR}/../constants.sh
 
 EXIT_CODE=$EXIT_CODE_OK
 SHELL_PATH=$0
-SHELL_DESCRIPTION="check installation of essential packages"
+SHELL_DESCRIPTION="install additional packages"
 
 info 0 "start ${SHELL_PATH} - ${SHELL_DESCRIPTION}"
 
 info 2 "package check start"
 # Check and install very basic software
-for i in $(echo 'figlet git flatpak snapd')
+for i in $(echo 'ibus-mozc mozc-data mozc-server mozc-utils-gui git-flow libimage-exiftool-perl yadm g810-led')
 do
   INSTALLATION=$(dpkg -l | grep "^ii  ${i} .*$" | wc -l)
   if [ ${INSTALLATION} -eq 0 ]
@@ -38,10 +38,3 @@ done
 info 0 "finish ${SHELL_PATH} (${EXIT_CODE})"
 
 exit $EXIT_CODE
-
-
-# No precondition check, this is always run
-
-
-
-exit 1

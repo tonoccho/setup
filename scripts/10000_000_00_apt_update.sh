@@ -4,13 +4,14 @@ SCRIPT_DIR=$(cd $(dirname $0);pwd)
 source ${SCRIPT_DIR}/../functions.sh
 source ${SCRIPT_DIR}/../constants.sh
 
-EXIT_CODE=$EXIT_CODE_OK_BUT_NOT_REGISTER
+EXIT_CODE=$EXIT_CODE_OK
 SHELL_PATH=$0
-SHELL_DESCRIPTION="do apt update"
+SHELL_DESCRIPTION="run apt update"
 
 info 0 "start ${SHELL_PATH} - ${SHELL_DESCRIPTION}"
 
-info 2 "apt update start"
+info 2 "running apt update"
+
 sudo apt update > /dev/null 2>&1
 result=$?
 info 2 "check result"
