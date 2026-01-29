@@ -1,11 +1,20 @@
 #!/usr/bin/env bash
 # 必ずやる処理
+set -e
+
 SCRIPT_DIR=$(cd $(dirname $0);pwd)
 source ${SCRIPT_DIR}/../functions.sh
 
 # check precondition
-for i in `echo video`
+for i in `echo video docker render`
 do
+  if getent group "${i}" > /dev/null 2>&1
+  then
+    echo "group ${i} is found"
+  else
+    sudo groupadd ${i}
+  fi
+
   echo -n "checking $LOGNAME is a member of $i ... "
   result=$(getent group $i |  grep $LOGNAME | wc -l)
   if [ $result -eq 1 ]
