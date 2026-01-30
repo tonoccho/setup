@@ -1,6 +1,7 @@
 #!/bin/bash
 RC_OK=0
-RC_NEED_REBOOT=3
+RC_SKIP=1
+RC_NEED_REBOOT=2
 RC_ERROR=9
 
 function show_error_message() {
@@ -12,17 +13,17 @@ function show_success_message() {
     echo "successfully finished"
 }
 
-function info() {
+function linfo() {
     local message=$1
     log "I" "$message"
 }
 
-function warn() {
+function lwarn() {
     local message=$1
     log "W" "$message"
 }
 
-function error() {
+function lerror() {
     local message=$1
     log "E" "$message"
 }
